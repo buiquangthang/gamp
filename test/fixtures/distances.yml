@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  busstop_from: 1
+  busstop_to: 1
+  distance_metter: 1.5
+
+two:
+  busstop_from: 1
+  busstop_to: 1
+  distance_metter: 1.5
