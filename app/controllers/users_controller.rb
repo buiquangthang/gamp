@@ -86,29 +86,15 @@ class UsersController < ApplicationController
       @matrix.configure do |config|
         config.mode = 'driving'
         config.avoid = 'tolls'
-
-        # To build signed URLs to use with a Google Business account.
-        # config.google_business_api_client_id = "123"
-        # config.google_business_api_private_key = "your-secret-key"
-
-        # If you have an API key, you can specify that as well.
         config.google_api_key = "AIzaSyCzjkYK_6usldy2pnjk7COj7CM0qf2w388"
       end
 
       lat_lng = GoogleDistanceMatrix::Place.new lng: 108.1959171, lat: 16.0657942
-      address = GoogleDistanceMatrix::Place.new address: "My address, Oslo"
-      # dest_address = GoogleDistanceMatrix::Place.new address: "Home, Oppegaard"
       dest_address = GoogleDistanceMatrix::Place.new lng: 108.212316, lat: 16.066769
 
-      # Just an example of an object responding to lat & lng.
-      # Point class isn't included in this gem, but feel free to
-      # create your own point class or use something like https://github.com/nofxx/georuby
-      point_dest = Point.new lat: 1, lng: 2
-      dest_object = GoogleDistanceMatrix::Place.new point_dest
       @matrix.origins << lat_lng
       @matrix.destinations << dest_address
       # binding.pry
-
     end
 
     def google_service

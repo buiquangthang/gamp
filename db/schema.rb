@@ -10,14 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313073624) do
-
-  create_table "books", force: :cascade do |t|
-    t.string   "title"
-    t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20170322024250) do
 
   create_table "distances", force: :cascade do |t|
     t.integer  "busstop_from"
@@ -30,9 +23,15 @@ ActiveRecord::Schema.define(version: 20170313073624) do
     t.index ["busstop_to"], name: "index_distances_on_busstop_to"
   end
 
+  create_table "graph_nodes", force: :cascade do |t|
+    t.text     "graph"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "places", force: :cascade do |t|
     t.float    "latitude"
-    t.float    "longtitude"
+    t.float    "longitude"
     t.string   "name"
     t.string   "address"
     t.string   "title"
