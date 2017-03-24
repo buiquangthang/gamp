@@ -46,6 +46,12 @@ class DistancesController < ApplicationController
   # PATCH/PUT /distances/1
   # PATCH/PUT /distances/1.json
   def update
+    place_from_id = params[:distance][:busstop_from].to_i
+    place_to_id = params[:distance][:busstop_to].to_i
+
+    distance_meters = get_distance(place_from_id, place_to_id)
+
+    params[:distance][:distance_metter] = distance_meters
     respond_to do |format|
       if @distance.update(distance_params)
         format.html { redirect_to @distance, notice: 'Distance was successfully updated.' }
