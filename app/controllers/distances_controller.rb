@@ -101,5 +101,6 @@ class DistancesController < ApplicationController
       @matrix.origins << lat_lng
       @matrix.destinations << dest_address
       @matrix.route_for(origin: lat_lng, destination: dest_address).distance_in_meters
+      binding.pry
     end
 end
