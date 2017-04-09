@@ -24,6 +24,8 @@ gem 'record_tag_helper'
 gem 'gmaps4rails'
 gem 'google_distance_matrix'
 gem 'google_maps_service'
+gem 'roo'
+gem 'iconv'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

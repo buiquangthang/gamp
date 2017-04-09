@@ -15,6 +15,6 @@ Place.create! title: "Bus Stop 11", address: "570 Điện Biên Phủ, Thanh Kh�
 Place.create! title: "Bus Stop 12", address: "734 Điện Biên Phủ, Đà Nẵng, Việt Nam"
 Place.create! title: "Bus Stop 13", address: "122 Tôn Đức Thắng, Đà Nẵng, Việt Nam"
 
-Place.take(13).each_with_index do |place, index|
-  Distance.create! busstop_from: place.id , busstop_to: index + 2
-end
+# Place.take(13).each_with_index do |place, index|
+#   Distance.create! busstop_from: place.id , busstop_to: index + 2
+# end

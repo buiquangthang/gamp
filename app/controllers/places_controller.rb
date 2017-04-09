@@ -15,6 +15,11 @@ class PlacesController < ApplicationController
   # GET /places/1
   # GET /places/1.json
   def show
+    @hash = Gmaps4rails.build_markers(@place) do |place, marker|
+      marker.lat place.latitude
+      marker.lng place.longitude
+      marker.infowindow place.title
+    end
   end
 
   # GET /places/new
@@ -64,6 +69,11 @@ class PlacesController < ApplicationController
       format.html { redirect_to places_url, notice: 'Place was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def import
+    Place.import(params[:file])
+    redirect_to root_url, notice: "Products imported."
   end
 
   private

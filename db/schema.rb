@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170322024250) do
+ActiveRecord::Schema.define(version: 20170408084421) do
+
+  create_table "bus_routes", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "distances", force: :cascade do |t|
     t.integer  "busstop_from"
@@ -35,8 +41,11 @@ ActiveRecord::Schema.define(version: 20170322024250) do
     t.string   "name"
     t.string   "address"
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "type_route"
+    t.integer  "bus_route_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["bus_route_id"], name: "index_places_on_bus_route_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -47,7 +56,6 @@ ActiveRecord::Schema.define(version: 20170322024250) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean  "gmaps"
   end
 
 end
