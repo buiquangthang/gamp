@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :places do
     collection {post :import}
   end
-  resources :users
-  root "users#index"
+  root "bus_routes#index"
+  post "bus_routes/:id/add_places", to: "bus_routes#add_places", as: "add_places"
+  post "bus_routes/:id/destroy_places", to: "bus_routes#destroy_places", as: "delete_places"
 end

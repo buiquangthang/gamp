@@ -5,13 +5,27 @@ class Place < ApplicationRecord
   after_create :push_node
   after_save :update_distance
 
-  has_many :from_distances, class_name: Distance.name, foreign_key: "busstop_from",
-    dependent: :destroy
-  has_many :to_distances, class_name: Distance.name, foreign_key: "busstop_to",
-    dependent: :destroy
-  has_many :busstops_from, through: :from_distances, source: :place_from
-  has_many :busstops_to, through: :to_distances, source: :place_to
+  # has_many :from_distances, class_name: Distance.name, foreign_key: "busstop_from",
+  #   dependent: :destroy
+  # has_many :to_distances, class_name: Distance.name, foreign_key: "busstop_to",
+  #   dependent: :destroy
+  # has_many :busstops_from, through: :from_distances, source: :place_from
+  # has_many :busstops_to, through: :to_distances, source: :place_to
 
+  has_many :place_routes
+  has_many :bus_routes, through: :place_routes
+
+  scope :not_in_object, ->object do
+    where("id NOT IN (?)", object.pluck(:id)) if object.any?
+  end
+
+  scope :of_ids, -> place_ids do
+    where(id: place_ids)
+  end
+
+  scope :not_in_routes, -> place_ids do
+    where.not(id: place_ids)
+  end
 
   def self.import(file)
     spreadsheet = open_spreadsheet(file)

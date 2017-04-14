@@ -1,5 +1,6 @@
 class BusRoutesController < ApplicationController
-  before_action :set_bus_route, only: [:show, :edit, :update, :destroy]
+  before_action :set_bus_route, except: :index
+  before_action :list_places, only: [:add_places, :destroy_places]
 
   # GET /bus_routes
   # GET /bus_routes.json
@@ -10,6 +11,15 @@ class BusRoutesController < ApplicationController
   # GET /bus_routes/1
   # GET /bus_routes/1.json
   def show
+    # @places = @bus_route.places
+    # @another_places = Place.not_in_object @places
+    @places = Place.of_ids(@bus_route.list_places)
+    @another_places = Place.not_in_routes(@bus_route.list_places)
+    @hash = Gmaps4rails.build_markers(@places) do |place, marker|
+      marker.lat place.latitude
+      marker.lng place.longitude
+      marker.infowindow place.title
+    end
   end
 
   # GET /bus_routes/new
@@ -61,6 +71,29 @@ class BusRoutesController < ApplicationController
     end
   end
 
+  def add_places
+    @bus_route.list_places += @list_places
+    @bus_route.save
+    # params[:bus_route][:list_places].each do |place|
+    #   PlaceRoute.transaction do
+    #     PlaceRoute.create place_id: place.to_i, bus_route: @bus_route
+    #   end 
+    # end
+    redirect_to @bus_route
+  end
+
+  def destroy_places
+    @bus_route.list_places -= @list_places
+    @bus_route.save
+    # params[:bus_route][:list_places].each do |place|
+    #   PlaceRoute.transaction do
+    #     place_route = PlaceRoute.find_by place_id: place.to_i, bus_route: @bus_route
+    #     place_route.destroy
+    #   end 
+    # end
+    redirect_to @bus_route
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bus_route
@@ -69,6 +102,13 @@ class BusRoutesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def bus_route_params
-      params.require(:bus_route).permit(:name)
+      params.require(:bus_route).permit(:name, list_places: [])
+    end
+
+    def list_places
+      @list_places = bus_route_params.values.first.map(&:to_i)
+      return if @list_places.any?
+      flash[:alert] = t "dashboard.whitelist.update.not_choose"
+      redirect_to request.referer
     end
 end

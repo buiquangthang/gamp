@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bus_route: one
+  place: 
+
+two:
+  bus_route: two
+  place: 

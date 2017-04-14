@@ -10,12 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170408084421) do
+ActiveRecord::Schema.define(version: 20170411014826) do
 
   create_table "bus_routes", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "bus_type"
+    t.text     "list_places", limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["name", "bus_type"], name: "index_bus_routes_on_name_and_bus_type", unique: true
   end
 
   create_table "distances", force: :cascade do |t|
@@ -35,25 +38,22 @@ ActiveRecord::Schema.define(version: 20170408084421) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "place_routes", force: :cascade do |t|
+    t.integer  "bus_route_id"
+    t.integer  "place_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["bus_route_id"], name: "index_place_routes_on_bus_route_id"
+    t.index ["place_id"], name: "index_place_routes_on_place_id"
+  end
+
   create_table "places", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
     t.string   "name"
     t.string   "address"
     t.string   "title"
-    t.string   "type_route"
-    t.integer  "bus_route_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["bus_route_id"], name: "index_places_on_bus_route_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "name"
-    t.string   "address"
-    t.string   "title"
+    t.string   "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

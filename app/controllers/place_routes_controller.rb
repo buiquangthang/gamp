@@ -1,0 +1,2 @@
+class PlaceRoutesController < ApplicationController
+end

@@ -6,8 +6,7 @@ class CreatePlaces < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :address
       t.string :title
-      t.string :type_route
-      t.references :bus_route
+      t.string :code
 
       t.timestamps
     end
