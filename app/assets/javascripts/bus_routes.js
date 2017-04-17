@@ -25,4 +25,22 @@ $(document).ready(function(){
   $('#btn-add-places-routes').on('click', function(){
     $('#form-add-places-routes').submit()
   });
+
+  $('#move-up').on('click', function(){
+    var rows_checked = $('.place-checkbox:checked');
+    for(i=0; i<rows_checked.length; i++){
+      var row = $(rows_checked[i]).closest('tr');
+      console.log(rows_checked[i])
+      row.insertBefore(row.prev());
+    }
+  });
+
+  $('#move-down').on('click', function(){
+    var rows_checked = $('.place-checkbox:checked');
+    for(i=rows_checked.length - 1; i>=0; i--){
+      var row = $(rows_checked[i]).closest('tr');
+      console.log(rows_checked[i])
+      row.insertAfter(row.next());
+    }
+  });
 })

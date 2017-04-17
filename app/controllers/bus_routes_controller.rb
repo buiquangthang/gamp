@@ -1,20 +1,19 @@
+require 'google_maps_service'
+
 class BusRoutesController < ApplicationController
   before_action :set_bus_route, except: :index
   before_action :list_places, only: [:add_places, :destroy_places]
+  before_action :set_global_api
+  after_action :set_route, only: [:add_places, :destroy_places]
 
-  # GET /bus_routes
-  # GET /bus_routes.json
   def index
     @bus_routes = BusRoute.all
   end
 
-  # GET /bus_routes/1
-  # GET /bus_routes/1.json
   def show
-    # @places = @bus_route.places
-    # @another_places = Place.not_in_object @places
     @places = Place.of_ids(@bus_route.list_places)
     @another_places = Place.not_in_routes(@bus_route.list_places)
+    @distances = @bus_route.distances
     @hash = Gmaps4rails.build_markers(@places) do |place, marker|
       marker.lat place.latitude
       marker.lng place.longitude
@@ -27,12 +26,9 @@ class BusRoutesController < ApplicationController
     @bus_route = BusRoute.new
   end
 
-  # GET /bus_routes/1/edit
   def edit
   end
 
-  # POST /bus_routes
-  # POST /bus_routes.json
   def create
     @bus_route = BusRoute.new(bus_route_params)
 
@@ -47,8 +43,6 @@ class BusRoutesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /bus_routes/1
-  # PATCH/PUT /bus_routes/1.json
   def update
     respond_to do |format|
       if @bus_route.update(bus_route_params)
@@ -61,8 +55,6 @@ class BusRoutesController < ApplicationController
     end
   end
 
-  # DELETE /bus_routes/1
-  # DELETE /bus_routes/1.json
   def destroy
     @bus_route.destroy
     respond_to do |format|
@@ -74,33 +66,26 @@ class BusRoutesController < ApplicationController
   def add_places
     @bus_route.list_places += @list_places
     @bus_route.save
-    # params[:bus_route][:list_places].each do |place|
-    #   PlaceRoute.transaction do
-    #     PlaceRoute.create place_id: place.to_i, bus_route: @bus_route
-    #   end 
-    # end
     redirect_to @bus_route
   end
 
   def destroy_places
     @bus_route.list_places -= @list_places
     @bus_route.save
-    # params[:bus_route][:list_places].each do |place|
-    #   PlaceRoute.transaction do
-    #     place_route = PlaceRoute.find_by place_id: place.to_i, bus_route: @bus_route
-    #     place_route.destroy
-    #   end 
-    # end
+    redirect_to @bus_route
+  end
+
+  def update_places
+    @bus_route.list_places = params[:list_places].map(&:to_i)
+    @bus_route.save!
     redirect_to @bus_route
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_bus_route
       @bus_route = BusRoute.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def bus_route_params
       params.require(:bus_route).permit(:name, list_places: [])
     end
@@ -110,5 +95,23 @@ class BusRoutesController < ApplicationController
       return if @list_places.any?
       flash[:alert] = t "dashboard.whitelist.update.not_choose"
       redirect_to request.referer
+    end
+
+    def set_route
+      list_places = @bus_route.list_places
+      Distance.transaction do
+        @bus_route.distances.destroy_all
+        (list_places.length - 1).times do |i|
+          origin = Place.find_by id: list_places[i]
+          origin_latlng = [origin.latitude, origin.longitude]
+          destination = Place.find_by id: list_places[i+1]
+          destination_latlng = [destination.latitude, destination.longitude]
+          route = @gmaps.directions(origin_latlng, destination_latlng,
+            mode: 'driving', alternatives: true)
+          distance_metter = route[0][:legs][0][:distance][:value]
+          Distance.create origin: origin.id, destination: destination.id,
+            bus_route: @bus_route, route: route, distance_metter: distance_metter
+        end
+      end
     end
 end

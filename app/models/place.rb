@@ -1,9 +1,10 @@
 class Place < ApplicationRecord
-  # geocoded_by :address
+  geocoded_by :address
   # after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
   after_create :push_node
-  after_save :update_distance
+  after_update :update_distance
+  # after_save :update_distance
 
   # has_many :from_distances, class_name: Distance.name, foreign_key: "busstop_from",
   #   dependent: :destroy
@@ -56,9 +57,24 @@ class Place < ApplicationRecord
   end
 
   def update_distance
-    distances = Distance.where("busstop_from = ? or busstop_to = ?", id, id)
+    GoogleMapsService.configure do |config|
+      config.key = 'AIzaSyDBEPeNCZHAyqAYysF2-ykAp8jfd47bxIw'
+      config.retry_timeout = 20
+      config.queries_per_second = 10
+    end
+
+    gmaps = GoogleMapsService::Client.new
+
+    distances = Distance.where("origin = ? or destination = ?", id, id)
     distances.each do |distance|
-      distance.update distance_metter: distance.get_distance
+      origin = Place.find_by id: distance.origin
+      origin_latlng = [origin.latitude, origin.longitude]
+      destination = Place.find_by id: distance.destination
+      destination_latlng = [destination.latitude, destination.longitude]
+      route = gmaps.directions(origin_latlng, destination_latlng,
+        mode: 'driving', alternatives: true)
+      distance_metter = route[0][:legs][0][:distance][:value]
+      distance.update distance_metter: distance_metter, route: route
     end
   end
 end

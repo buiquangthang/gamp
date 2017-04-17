@@ -38,3 +38,11 @@ tbody td, thead th {
 tbody td:last-child, thead th:last-child {
     border-right: none;
 }
+
+.paddingbottom {
+  padding-bottom: 10px;
+}
+
+.paddingtop {
+  padding-top: 10px;
+}

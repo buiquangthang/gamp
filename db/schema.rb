@@ -22,14 +22,16 @@ ActiveRecord::Schema.define(version: 20170411014826) do
   end
 
   create_table "distances", force: :cascade do |t|
-    t.integer  "busstop_from"
-    t.integer  "busstop_to"
+    t.integer  "origin"
+    t.integer  "destination"
     t.float    "distance_metter"
+    t.integer  "bus_route_id"
+    t.text     "route"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["busstop_from", "busstop_to"], name: "index_distances_on_busstop_from_and_busstop_to", unique: true
-    t.index ["busstop_from"], name: "index_distances_on_busstop_from"
-    t.index ["busstop_to"], name: "index_distances_on_busstop_to"
+    t.index ["destination"], name: "index_distances_on_destination"
+    t.index ["origin", "destination", "bus_route_id"], name: "index_distances_on_origin_and_destination_and_bus_route_id", unique: true
+    t.index ["origin"], name: "index_distances_on_origin"
   end
 
   create_table "graph_nodes", force: :cascade do |t|

@@ -73,7 +73,7 @@ class PlacesController < ApplicationController
 
   def import
     Place.import(params[:file])
-    redirect_to root_url, notice: "Products imported."
+    redirect_to places_path, notice: "Products imported."
   end
 
   private
