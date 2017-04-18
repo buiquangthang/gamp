@@ -4,7 +4,7 @@ class BusRoutesController < ApplicationController
   before_action :set_bus_route, except: :index
   before_action :list_places, only: [:add_places, :destroy_places]
   before_action :set_global_api
-  after_action :set_route, only: [:add_places, :destroy_places]
+  after_action :set_route, only: [:add_places, :destroy_places, :update_places]
 
   def index
     @bus_routes = BusRoute.all

@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h1>Timetables#index</h1>
+</div>
+<p>Find me in app/views/timetables/index.html.erb</p>
+<div id="table" class="table-editable">
+  <span class="table-add glyphicon glyphicon-plus"></span>
+  <table class="table" id="time-tables">
+    <tr>
+      <td class="bus-stop"><strong>BT1</strong></td>
+      <td contenteditable="true">12:00</td>
+    </tr>
+    <tr>
+      <td class="bus-stop"><strong>BT2</strong></td>
+      <td contenteditable="true">12:00</td>
+    </tr>
+    <tr>
+      <td class="bus-stop"><strong>BT3</strong></td>
+      <td contenteditable="true">12:00</td>
+    </tr>
+    <!-- This is our clonable table line -->
+<!--     <tr class="hide">
+      <td contenteditable="true">Untitled</td>
+      <td contenteditable="true">undefined</td>
+      <td>
+        <span class="table-remove glyphicon glyphicon-remove"></span>
+      </td>
+      <td>
+        <span class="table-up glyphicon glyphicon-arrow-up"></span>
+        <span class="table-down glyphicon glyphicon-arrow-down"></span>
+      </td>
+    </tr> -->
+  </table>
+</div>
+
+<button id="export-btn" class="btn btn-primary">Export Data</button>
+<p id="export"></p>

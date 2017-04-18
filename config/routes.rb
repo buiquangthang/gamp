@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :bus_routes
+  resources :bus_routes do
+    resources :timetables
+  end
   resources :distances
   resources :places do
     collection {post :import}
