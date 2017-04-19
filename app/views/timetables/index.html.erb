@@ -1,36 +1,48 @@
 <div class="page-header">
+  <a class="btn btn-success" href="#" data-toggle="modal" data-target="#myModal">Add Time Table</a>
   <h1>Timetables#index</h1>
 </div>
-<p>Find me in app/views/timetables/index.html.erb</p>
+<%= render "add_timetable_modal" %>
+
 <div id="table" class="table-editable">
-  <span class="table-add glyphicon glyphicon-plus"></span>
   <table class="table" id="time-tables">
-    <tr>
-      <td class="bus-stop"><strong>BT1</strong></td>
-      <td contenteditable="true">12:00</td>
-    </tr>
-    <tr>
-      <td class="bus-stop"><strong>BT2</strong></td>
-      <td contenteditable="true">12:00</td>
-    </tr>
-    <tr>
-      <td class="bus-stop"><strong>BT3</strong></td>
-      <td contenteditable="true">12:00</td>
-    </tr>
-    <!-- This is our clonable table line -->
-<!--     <tr class="hide">
-      <td contenteditable="true">Untitled</td>
-      <td contenteditable="true">undefined</td>
-      <td>
-        <span class="table-remove glyphicon glyphicon-remove"></span>
-      </td>
-      <td>
-        <span class="table-up glyphicon glyphicon-arrow-up"></span>
-        <span class="table-down glyphicon glyphicon-arrow-down"></span>
-      </td>
-    </tr> -->
+    <% @places.each do |place| %>
+      <tr>
+        <td class="bus-stop">
+          <strong><%= place.name %></strong>
+        </td>
+        <% @nodes[place.id].each do |time| %>
+          <td class="node-timetable">
+            <p contenteditable="true" class="current-time"><%= time.arrival_time.strftime("%H:%M") %></p>
+            <input type="hidden" value="<%= time.id %>" id="node-id-<%= time.id %>" class="node-id">
+            <input type="hidden" value="<%= time.arrival_time.strftime("%H:%M") %>" class="time-arrival">
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
   </table>
 </div>
 
 <button id="export-btn" class="btn btn-primary">Export Data</button>
+<button id="save-btn" class="btn btn-success">Save Data</button>
 <p id="export"></p>
+
+<script>
+  $('#save-btn').on('click', function(){
+    var nodeChangeHash = {};
+    var nodeNewHash = [];
+    $("table#time-tables tr").each(function(){ 
+        var tableData = $(this).find('td.node-timetable');
+        var header = $(this).find('bus-stop');
+        tableData.each(function(){
+          var node_id = $(this).find('.node-id').val();
+          var time_arrival = $(this).find('.time-arrival').val();
+          var current_time = $(this).find('.current-time').text().replace(/\n|\r/g, "");
+          if(current_time != time_arrival){
+            nodeChangeHash[node_id] = current_time
+          }
+        })
+    });
+    console.log(nodeChangeHash)
+  })
+</script>

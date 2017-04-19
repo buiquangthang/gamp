@@ -15,6 +15,7 @@ class Place < ApplicationRecord
 
   has_many :place_routes
   has_many :bus_routes, through: :place_routes
+  has_many :nodes
 
   scope :not_in_object, ->object do
     where("id NOT IN (?)", object.pluck(:id)) if object.any?

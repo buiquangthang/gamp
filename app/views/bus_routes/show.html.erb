@@ -1,7 +1,5 @@
 <div class="page-header">
-  <%= link_to content_tag(:i, t("education.layouts.page_title.member"), class: "icon-user"),
-    "#", class: "btn btn-primary",
-    data: {toggle: "modal", target: "#busstop-modal"} %>
+  <%= link_to "Time Table", bus_route_timetables_path(@bus_route), class: "btn btn-success" %>
   <%= link_to bus_routes_path, class: 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Back

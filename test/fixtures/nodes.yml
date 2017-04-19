@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bus_route: one
+  place: one
+  arrival_time: 2017-04-19 09:25:47
+
+two:
+  bus_route: two
+  place: two
+  arrival_time: 2017-04-19 09:25:47

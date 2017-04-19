@@ -37,7 +37,7 @@ $(document).ready(function(){
     console.log($rows);
     // Get the headers (add special header logic here)
     $($rows).find('.bus-stop').each(function () {
-      headers.push($(this).text());
+      headers.push($(this).text().replace(/\n|\r/g, ""));
     });
     
     var myTableArray = [];
@@ -45,13 +45,10 @@ $(document).ready(function(){
         var arrayOfThisRow = [];
         var tableData = $(this).find('td');
         if (tableData.length > 0) {
-            tableData.each(function() { arrayOfThisRow.push($(this).text()); });
+            tableData.each(function() { arrayOfThisRow.push($(this).text().replace(/\n|\r/g, ""))});
             myTableArray.push(arrayOfThisRow);
         }
     });
-
-    console.log(myTableArray.length)
-    console.log(myTableArray[0].length)
 
     for(i=1; i < myTableArray[0].length; i++){
       var h = {};
@@ -61,19 +58,6 @@ $(document).ready(function(){
       }
       data.push(h);
     }
-    // Turn all existing rows into a loopable array
-    // $rows.each(function () {
-    //   var $td = $(this).find('td');
-    //   $td.shift();
-    //   var h = {};
-      
-    //   // Use the headers from earlier to name our hash keys
-    //   headers.forEach(function (header, i) {
-    //     h[header] = $td.eq(i).text();   
-    //   });
-      
-    //   data.push(h);
-    // });
     
     // Output the result
     $EXPORT.text(JSON.stringify(data));
