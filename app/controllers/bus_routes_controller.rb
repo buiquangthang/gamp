@@ -5,6 +5,7 @@ class BusRoutesController < ApplicationController
   before_action :list_places, only: [:add_places, :destroy_places]
   before_action :set_global_api
   after_action :set_route, only: [:add_places, :destroy_places, :update_places]
+  after_action :delete_nodes, only: :destroy_places
 
   def index
     @bus_routes = BusRoute.all
@@ -112,6 +113,28 @@ class BusRoutesController < ApplicationController
           Distance.create origin: origin.id, destination: destination.id,
             bus_route: @bus_route, route: route, distance_metter: distance_metter
         end
+      end
+    end
+
+    def delete_nodes
+      @list_places.each do |place_id|
+        nodes = Node.where(bus_route: @bus_route, place_id: place_id)
+        nodes.each do |node|
+          destination_links = Link.where(destination: node.id)
+          origin_links = Link.where(origin: node.id)
+          destination_links.each do |des|
+            origin_links.each do |ori|
+              Link.create origin: des.origin, destination: ori.destination
+            end
+          end
+          destination_links.delete_all
+          origin_links.delete_all
+          @bus_route.list_nodes.each do |l|
+            l.list.delete_if {|x| x == node.id}
+            l.save
+          end
+        end
+        nodes.delete_all
       end
     end
 end
