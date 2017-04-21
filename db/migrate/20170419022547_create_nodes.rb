@@ -4,6 +4,7 @@ class CreateNodes < ActiveRecord::Migration[5.0]
       t.references :bus_route, foreign_key: true
       t.references :place, foreign_key: true
       t.time :arrival_time
+      t.references :list_node, foreign_key: true
 
       t.timestamps
     end

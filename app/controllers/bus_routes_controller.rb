@@ -6,6 +6,8 @@ class BusRoutesController < ApplicationController
   before_action :set_global_api
   after_action :set_route, only: [:add_places, :destroy_places, :update_places]
   after_action :delete_nodes, only: :destroy_places
+  after_action :add_nodes, only: :add_places
+  after_action :update_links, only: :update_places
 
   def index
     @bus_routes = BusRoute.all
@@ -135,6 +137,41 @@ class BusRoutesController < ApplicationController
           end
         end
         nodes.delete_all
+      end
+    end
+
+    def add_nodes
+      @bus_route.list_nodes.each do |ln|
+        previous_list_length = ln.list.length
+        @list_places.each do |place_id|
+          node = Node.create bus_route: @bus_route, place_id: place_id, list_node: ln
+          ln.list.push node.id
+        end
+        ln.save
+        new_list_node = ln.list.drop(previous_list_length-1)
+        (new_list_node.length-1).times do |i|
+          Link.create origin: new_list_node[i], destination: new_list_node[i+1]
+        end
+      end
+    end
+
+    def update_links
+      list_places = @bus_route.list_places
+      @bus_route.list_nodes.each do |ln|
+        previous_list = ln.list
+        nodes = Node.of_ids(previous_list)
+        new_list = []
+        list_places.each do |lp|
+          new_list.push(nodes.find{|n| n.place_id == lp}.id)
+        end
+        (previous_list.length-1).times do |i|
+          Link.find_by(origin: previous_list[i], destination: previous_list[i+1]).destroy
+        end
+        (new_list.length-1).times do |i|
+          Link.create origin: new_list[i], destination: new_list[i+1]
+        end
+        ln.list = new_list
+        ln.save
       end
     end
 end

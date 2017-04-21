@@ -24,7 +24,8 @@ class TimetablesController < ApplicationController
       list_n = ListNode.create bus_route: @bus_route
       nodes[1].each do |key, value|
         place = Place.find_by code: key
-        node = Node.create place: place, arrival_time: value, bus_route: @bus_route
+        node = Node.create place: place, arrival_time: value,
+          bus_route: @bus_route, list_node: list_n
         list_n.list.push(node.id)
       end
       node_ids = list_n.list

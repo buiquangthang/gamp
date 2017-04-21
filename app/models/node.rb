@@ -4,6 +4,7 @@ class Node < ApplicationRecord
 
   belongs_to :bus_route
   belongs_to :place
+  belongs_to :list_node
 
   scope :of_ids, -> node_ids do
     where(id: node_ids)

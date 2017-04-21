@@ -59,9 +59,11 @@ ActiveRecord::Schema.define(version: 20170421015610) do
     t.integer  "bus_route_id"
     t.integer  "place_id"
     t.time     "arrival_time"
+    t.integer  "list_node_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.index ["bus_route_id"], name: "index_nodes_on_bus_route_id"
+    t.index ["list_node_id"], name: "index_nodes_on_list_node_id"
     t.index ["place_id"], name: "index_nodes_on_place_id"
   end
 
