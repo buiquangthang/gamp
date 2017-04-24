@@ -27,6 +27,7 @@ gem 'google_maps_service'
 gem 'roo'
 gem 'iconv'
 gem 'jquery-turbolinks'
+gem 'devise'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :users
+  root 'home#index'
+
   get 'links/index'
 
   resources :bus_routes do

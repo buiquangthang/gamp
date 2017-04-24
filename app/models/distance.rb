@@ -4,9 +4,9 @@ class Distance < ApplicationRecord
   belongs_to :bus_route
   serialize :route, Array
 
-  after_create :build_graph
-  after_destroy :remove_edge
-  after_update :update_edge
+  # after_create :build_graph
+  # after_destroy :remove_edge
+  # after_update :update_edge
 
   validates :origin, presence: true
   validates :destination, presence: true

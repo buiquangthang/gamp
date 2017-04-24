@@ -1,5 +1,6 @@
 class Node < ApplicationRecord
   after_create :update_links_after_create
+  after_create :push_node
   after_update :update_links_after_update
 
   belongs_to :bus_route
@@ -34,6 +35,9 @@ class Node < ApplicationRecord
     end
   end
 
-  def update_links_after_delete
+  def push_node
+    g = GraphNode.first
+    g.graph.push id
+    g.save!
   end
 end

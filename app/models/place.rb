@@ -2,8 +2,8 @@ class Place < ApplicationRecord
   geocoded_by :address
   # after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
-  after_create :push_node
-  after_update :update_distance
+  # after_create :push_node
+  # after_update :update_distance
   # after_save :update_distance
 
   # has_many :from_distances, class_name: Distance.name, foreign_key: "busstop_from",

@@ -1,0 +1,39 @@
+<div id="mySidenav" class="sidenav">
+  <ul class="nav nav-tabs nav-justified">
+    <li class="active"><a data-toggle="tab" href="#list-route">Home</a></li>
+    <li><a data-toggle="tab" href="#search-bus">Menu 1</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="list-route" class="tab-pane fade in active">
+      <div class="search-route">
+        <input type="text" class="form-control">
+      </div>
+      <div class="list-group">
+        <% @bus_routes.each do |route| %>
+          <%= link_to "#", class: "list-group-item" do %>
+            <h4 class="list-group-item-heading"><%= route.name %></h4>
+            <p class="list-group-item-text">...</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div id="search-bus" class="tab-pane fade">
+      <h3>Menu 1</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </div>
+</div>
+
+<div id="home-map" style="margin-top: 50px;">My map will go here</div>
+
+<script>
+  window.onload = function (){
+    var mapCanvas = document.getElementById("home-map");
+    var mapOptions = {
+        center: new google.maps.LatLng(16.065439, 108.201907),
+        zoom: 13
+    };
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+  }
+</script>
