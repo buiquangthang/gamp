@@ -6,7 +6,6 @@ class Link < ApplicationRecord
   validates_uniqueness_of :origin, scope: [:destination]
 
   def update_cost
-    binding.pry
     node_destination = Node.find_by id: destination
     node_origin = Node.find_by id: origin
     self.cost = node_destination.arrival_time - node_origin.arrival_time

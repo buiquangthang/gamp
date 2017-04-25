@@ -11,7 +11,8 @@
       </div>
       <div class="list-group">
         <% @bus_routes.each do |route| %>
-          <%= link_to "#", class: "list-group-item" do %>
+          <%= link_to show_bus_route_path(route.id),
+            remote: true, class: "list-group-item" do %>
             <h4 class="list-group-item-heading"><%= route.name %></h4>
             <p class="list-group-item-text">...</p>
           <% end %>
@@ -28,12 +29,5 @@
 <div id="home-map" style="margin-top: 50px;">My map will go here</div>
 
 <script>
-  window.onload = function (){
-    var mapCanvas = document.getElementById("home-map");
-    var mapOptions = {
-        center: new google.maps.LatLng(16.065439, 108.201907),
-        zoom: 13
-    };
-    var map = new google.maps.Map(mapCanvas, mapOptions);
-  }
+  window.onload = defaultMap();
 </script>

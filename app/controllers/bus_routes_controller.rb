@@ -144,7 +144,8 @@ class BusRoutesController < ApplicationController
       @bus_route.list_nodes.each do |ln|
         previous_list_length = ln.list.length
         @list_places.each do |place_id|
-          node = Node.create bus_route: @bus_route, place_id: place_id, list_node: ln
+          node = Node.create bus_route: @bus_route, place_id: place_id,
+            list_node: ln, arrival_time: "00:00"
           ln.list.push node.id
         end
         ln.save

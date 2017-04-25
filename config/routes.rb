@@ -17,4 +17,6 @@ Rails.application.routes.draw do
   post "bus_routes/:id/update_places", to: "bus_routes#update_places", as: "update_places"
   post "bus_routes/:bus_route_id/timetables/update_nodes",
     to: "timetables#update_nodes", as: "update_nodes"
+
+  get "home/show_bus_route/:bus_route_id", to: "home#show_bus_route", as: "show_bus_route"
 end
