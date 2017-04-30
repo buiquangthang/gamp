@@ -29,20 +29,20 @@
       </div>
     </div>
     <div class="col-md-6 paddingbottom">
-        <div class="row">
-          <div class="col-md-8">
-            <input type="text" class="form-control">
-          </div>
-          <div class="col-md-4">
-            <%= button_tag type: :submit, class: "btn btn-primary pull-right",
-              id: "btn-add-places-routes" do %>
-              <%= t "dashboard.whitelist.destroy.add" %>
-            <% end %>
-          </div>
+      <div class="row">
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="search-place-txt">
         </div>
+        <div class="col-md-4">
+          <%= button_tag type: :submit, class: "btn btn-primary pull-right",
+            id: "btn-add-places-routes" do %>
+            <%= t "dashboard.whitelist.destroy.add" %>
+          <% end %>
+        </div>
+      </div>
       <div class="table-responsive paddingtop">
         <%= form_tag add_places_path(@bus_route.id), id: "form-add-places-routes" do %>
-          <table class="table table-striped table-bordered table-hover scroll">
+          <table class="table table-striped table-bordered table-hover scroll" id="table-place">
             <thead>
               <tr>
                 <th>#</th>
@@ -105,6 +105,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+  <% if @hash.any? %>
     var markers = <%= raw @hash.to_json %>
     window.onload = function () {
       var mapOptions = {
@@ -167,7 +168,10 @@ $(document).ready(function(){
       <% end %>
       map.fitBounds(bounds);
     }
-  })
+  <% else %>
+    defaultMap("map");
+  <% end %>
+})
 </script>
 
 <script>

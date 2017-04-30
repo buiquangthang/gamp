@@ -14,6 +14,8 @@
  *= require_self
  */
 
+@import "font-awesome";
+
 table.scroll tbody,
 table.scroll thead { display: block; }
 
@@ -30,7 +32,7 @@ table.scroll tbody {
 }
 
 tbody td, thead th {
-    /* width: 20%; */ /* Optional */
+  /*width: 20%;   Optional */
     /*border-right: 1px solid black;*/
     /* white-space: nowrap; */
 }
@@ -39,6 +41,9 @@ tbody td:last-child, thead th:last-child {
     border-right: none;
 }
 
+table {
+  width: 100%;
+}
 .paddingbottom {
   padding-bottom: 10px;
 }
@@ -144,5 +149,9 @@ tbody td:last-child, thead th:last-child {
 
 .search-route {
   padding: 10px 10px;
+
+  a, h3 {
+    color: white;
+  }
 }
 

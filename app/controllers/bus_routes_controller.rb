@@ -84,6 +84,14 @@ class BusRoutesController < ApplicationController
     redirect_to @bus_route
   end
 
+  def search_bus_stop
+    term = params[:term]
+    @bus_stops = Place.search_address term, @bus_route.list_places
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     def set_bus_route
       @bus_route = BusRoute.find(params[:id])

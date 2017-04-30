@@ -43,4 +43,12 @@ $(document).ready(function(){
       row.insertAfter(row.next());
     }
   });
+
+  $('#search-place-txt').on('keyup',function(e) {
+    var pathname = window.location.pathname;
+    console.log(pathname);
+    var term = $(this).val();
+    var data = {term: term};
+    $.get(pathname + '/search_bus_stop', data, null, 'script');
+  });
 })

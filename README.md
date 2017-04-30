@@ -12,4 +12,8 @@ Something done:
 Not Complete
 + Delete one list node
 + Link walking between bus stop
-+ Homepage for end user
++ Homepage for end user (Progress)
+
+Problem
++ Very much Node and Link
++ Find nearest Node for start point, end point

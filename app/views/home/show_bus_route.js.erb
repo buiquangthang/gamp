@@ -61,10 +61,11 @@
   <% end %>
   map.fitBounds(bounds);
 <% else %>
-  defaultMap();
+  defaultMap("home-map");
 <% end %>
 
-$('.list-group').html("<%= j render partial: 'list_bus_stop' %>");
+$('.list-group').html("<%= j render 'list_bus_stop' %>");
+$('.search-route').html("<%= j render 'bus_route_name' %>");
 
 $('.marker-link').on('click', function () {
   var marker = infowindow_markers[$(this).data('markerid')];

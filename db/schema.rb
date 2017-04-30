@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 20170424032636) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "bus_routes", force: :cascade do |t|
     t.string   "name"
     t.integer  "bus_type"
-    t.text     "list_places", limit: 65535
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.index ["name", "bus_type"], name: "index_bus_routes_on_name_and_bus_type", unique: true
+    t.text     "list_places"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["name", "bus_type"], name: "index_bus_routes_on_name_and_bus_type", unique: true, using: :btree
   end
 
   create_table "distances", force: :cascade do |t|
@@ -29,9 +32,9 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.text     "route"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.index ["destination"], name: "index_distances_on_destination"
-    t.index ["origin", "destination", "bus_route_id"], name: "index_distances_on_origin_and_destination_and_bus_route_id", unique: true
-    t.index ["origin"], name: "index_distances_on_origin"
+    t.index ["destination"], name: "index_distances_on_destination", using: :btree
+    t.index ["origin", "destination", "bus_route_id"], name: "index_distances_on_origin_and_destination_and_bus_route_id", unique: true, using: :btree
+    t.index ["origin"], name: "index_distances_on_origin", using: :btree
   end
 
   create_table "graph_nodes", force: :cascade do |t|
@@ -53,7 +56,7 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.text     "list"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["bus_route_id"], name: "index_list_nodes_on_bus_route_id"
+    t.index ["bus_route_id"], name: "index_list_nodes_on_bus_route_id", using: :btree
   end
 
   create_table "nodes", force: :cascade do |t|
@@ -63,9 +66,9 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.integer  "list_node_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["bus_route_id"], name: "index_nodes_on_bus_route_id"
-    t.index ["list_node_id"], name: "index_nodes_on_list_node_id"
-    t.index ["place_id"], name: "index_nodes_on_place_id"
+    t.index ["bus_route_id"], name: "index_nodes_on_bus_route_id", using: :btree
+    t.index ["list_node_id"], name: "index_nodes_on_list_node_id", using: :btree
+    t.index ["place_id"], name: "index_nodes_on_place_id", using: :btree
   end
 
   create_table "place_routes", force: :cascade do |t|
@@ -73,8 +76,8 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.integer  "place_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["bus_route_id"], name: "index_place_routes_on_bus_route_id"
-    t.index ["place_id"], name: "index_place_routes_on_place_id"
+    t.index ["bus_route_id"], name: "index_place_routes_on_bus_route_id", using: :btree
+    t.index ["place_id"], name: "index_place_routes_on_place_id", using: :btree
   end
 
   create_table "places", force: :cascade do |t|
@@ -101,8 +104,14 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "list_nodes", "bus_routes"
+  add_foreign_key "nodes", "bus_routes"
+  add_foreign_key "nodes", "list_nodes"
+  add_foreign_key "nodes", "places"
+  add_foreign_key "place_routes", "bus_routes"
+  add_foreign_key "place_routes", "places"
 end

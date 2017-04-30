@@ -29,6 +29,11 @@ class Place < ApplicationRecord
     where.not(id: place_ids)
   end
 
+  scope :search_address, -> term, place_ids do
+    where("LOWER(address) LIKE :address", address: "%#{term}%")
+      .where.not(id: place_ids)
+  end
+
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
     header = spreadsheet.row(12)

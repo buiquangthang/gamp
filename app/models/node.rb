@@ -14,7 +14,7 @@ class Node < ApplicationRecord
   def update_links_after_create
     nodes = Node.where(place: place).order("arrival_time asc")
     nodes.each do |node|
-      next if node.id == id || node.bus_route_id == bus_route_id
+      next if node.id == id #|| node.bus_route_id == bus_route_id
       if node.arrival_time > arrival_time
         Link.create origin: id, destination: node.id
       else
@@ -26,7 +26,7 @@ class Node < ApplicationRecord
   def update_links_after_update
     nodes = Node.where(place: place).order("arrival_time asc")
     nodes.each do |node|
-      next if node.id == id || node.bus_route_id == bus_route_id
+      next if node.id == id #|| node.bus_route_id == bus_route_id
       if node.arrival_time > arrival_time
         Link.where(destination: id).update_all(origin: id, destination: node.id)
       else
