@@ -7,7 +7,7 @@ namespace :db do
 
     bus_routes.each do |bus_route|
       t = Time.parse("07:00")
-      15.times do |n|
+      10.times do |n|
         puts n
         puts t
         t_temp = t
