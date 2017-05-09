@@ -1,0 +1,78 @@
+<% if @hash.any? %>
+  var infowindow_markers = {};
+  var markers = <%= raw @hash.to_json %>
+  var mapOptions = {
+      center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+      zoom: 10,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("home-map"), mapOptions);
+  var infoWindow = new google.maps.InfoWindow();
+  var lat_lng = new Array();
+  var latlngbounds = new google.maps.LatLngBounds();
+  for (i = 0; i < markers.length; i++) {
+      var data = markers[i]
+      var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+      lat_lng.push(myLatlng);
+      var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          title: data.title
+      });
+      latlngbounds.extend(marker.position);
+      (function (marker, data) {
+          google.maps.event.addListener(marker, "click", function (e) {
+              infoWindow.setContent(data.infowindow);
+              infoWindow.open(map, marker);
+          });
+      })(marker, data);
+      infowindow_markers[data.id] = marker;
+  }
+  map.setCenter(latlngbounds.getCenter());
+  map.fitBounds(latlngbounds);
+  //***********ROUTING****************//
+
+  //Intialize the Path Array
+  var path = new google.maps.MVCArray();
+
+  // Intialize the Direction Service
+  var service = new google.maps.DirectionsService();
+
+  var bounds = new google.maps.LatLngBounds();
+
+  <% @distances.each do |distance| %>
+    var jsonData = <%= raw distance.route.to_json %>
+    var path_encode = jsonData[0].overview_polyline.points;
+    var path = google.maps.geometry.encoding.decodePath(path_encode);
+    for (var i = 0; i < path.length; i++) {
+        bounds.extend(path[i]);
+    }
+    
+    var polyline = new google.maps.Polyline({
+        path: path,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 5,
+        fillColor: '#FF0000',
+        fillOpacity: 0.8,
+        map: map
+    });
+    polyline.setMap(map);
+  <% end %>
+  map.fitBounds(bounds);
+<% else %>
+  defaultMap("home-map");
+<% end %>
+
+<% direction_string = "" %>
+<% @direction_result.each do |key, value| %>
+  <% direction_string = direction_string + 
+    "Di den tram #{value[:place_start].code} tai dia chi #{value[:place_start].address} " +
+    "luc #{value[:node_start].arrival_time}." +
+    "Bat xe buyt #{key.name} luot #{key.bus_type} di den tram " + 
+    "#{value[:place_end].code} tai dia chi #{value[:place_end].address} " +
+    "luc #{value[:node_end].arrival_time}. >>>>>>>>>>>>>>>>>>>>>>>> "
+  %>
+<% end %>
+
+$('#div-result-search').text("<%= direction_string %>")

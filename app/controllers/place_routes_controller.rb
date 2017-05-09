@@ -1,2 +1,0 @@
-class PlaceRoutesController < ApplicationController
-end
