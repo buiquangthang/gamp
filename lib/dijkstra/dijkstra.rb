@@ -16,6 +16,7 @@ class Dijkstra
     while node != @source_node
       path.unshift(node)
       node = @path_to[node]
+      return "Cannot find" if node == nil
     end
 
     path.unshift(@source_node)

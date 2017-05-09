@@ -1,10 +1,4 @@
-# require_dependency 'edge'
-# require_dependency 'graph'
 require "pp"
-# require_dependency "graph"
-# require_dependency "nod"
-# require_dependency "edge"
-# require_dependency "dijkstra"
 
 namespace :db do
   desc "Testing"

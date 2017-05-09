@@ -17,4 +17,5 @@
 //= require bootstrap
 //= require underscore
 //= require gmaps/google
+//= require context_menu
 //= require_tree .

@@ -31,18 +31,38 @@
     </div>
     <div id="search-bus" class="tab-pane fade">
       <div class="search-route">
-        <input type="text" class="form-control" placeholder="Start">
-        <input type="text" class="form-control" placeholder="Finish" style="margin-top: 10px">
+        <input type="text" class="form-control" placeholder="Start" id="start-point-txt">
+        <input type="text" class="form-control" placeholder="Finish" style="margin-top: 10px" id="end-point-txt">
       </div>
       <div class="search-route">
-        <a href="#" class="btn btn-success">Search</a>
+        <a href="#" class="btn btn-success" id="search-bus-btn">Search</a>
       </div>
     </div>
   </div>
 </div>
-
+  
 <div id="home-map" style="margin-top: 50px;">My map will go here</div>
 
 <script>
-  window.onload = defaultMap("home-map");
+  window.onload = initialise();
 </script>
+
+<style>
+  /*  start styles for the ContextMenu  */
+.context_menu{
+  background-color:white;
+  border:1px solid gray;
+}
+.context_menu_item{
+  padding:3px 6px;
+}
+.context_menu_item:hover{
+  background-color:#CCCCCC;
+}
+.context_menu_separator{
+  background-color:gray;
+  height:1px;
+  margin:0;
+  padding:0;
+}
+</style>
