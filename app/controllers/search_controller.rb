@@ -3,7 +3,7 @@ class SearchController < ApplicationController
     # initial graph
     graph = Graph.new
     nodes = [0]
-    node_ids = Node.pluck(:id)
+    node_ids = TimeNode.pluck(:id)
     node_ids.map {|id| graph.add_node(nodes[id] = Nod.new("#{id}"))}
     links = Link.all
     links.each do |link|
@@ -23,17 +23,17 @@ class SearchController < ApplicationController
 
     # get node nearest time and place
     start_places.each do |place|
-      temps = Node.where("CAST(arrival_time as time) between '07:00' and '12:00' AND place_id = #{place.id}").pluck(:id)
+      temps = TimeNode.where("CAST(arrival_time as time) between '07:00' and '12:00' AND place_id = #{place.id}").pluck(:id)
       nodes_start = nodes_start + temps
     end
 
     end_places.each do |place|
-      temps = Node.where("CAST(arrival_time as time) between '07:00' and '12:00' AND place_id = #{place.id}").pluck(:id)
+      temps = TimeNode.where("CAST(arrival_time as time) between '07:00' and '12:00' AND place_id = #{place.id}").pluck(:id)
       nodes_end = nodes_end + temps
     end
 
-    node_start = Nod.new("Node Start")
-    node_end = Nod.new("Node end")
+    node_start = Nod.new("TimeNode Start")
+    node_end = Nod.new("TimeNode end")
     graph.add_node node_start
     graph.add_node node_end
 
@@ -58,7 +58,7 @@ class SearchController < ApplicationController
 
     #calculate result and response to user
     result_node_ids = nodes_result.map(&:to_i)
-    result_nodes = Node.where(id: result_node_ids).includes(:bus_route, :place)
+    result_nodes = TimeNode.where(id: result_node_ids).includes(:bus_route, :place)
       .index_by(&:id).values_at(*result_node_ids)
 
     result_distance = []

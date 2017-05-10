@@ -1,0 +1,32 @@
+<div class="page-header">
+  <%= link_to bus_lines_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_bus_line_path(@bus_line), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show bus_line</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Name:</dt>
+  <dd><%= @bus_line.name %></dd>
+
+  <dt>Operating from:</dt>
+  <dd><%= @bus_line.operating_from %></dd>
+
+  <dt>Operating to:</dt>
+  <dd><%= @bus_line.operating_to %></dd>
+
+  <dt>In charge unit:</dt>
+  <dd><%= @bus_line.in_charge_unit %></dd>
+
+  <dt>Ticket fee:</dt>
+  <dd><%= @bus_line.ticket_fee %></dd>
+
+  <dt>Description:</dt>
+  <dd><%= @bus_line.description %></dd>
+
+</dl>

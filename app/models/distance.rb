@@ -34,13 +34,13 @@ class Distance < ApplicationRecord
   private
 
   def build_graph
-    g = GraphNode.first
+    g = GraphTimeNode.first
     g.graph.connect_mutually origin, destination, id, distance_metter
     g.save!
   end
 
   def update_edge
-    g = GraphNode.first
+    g = GraphTimeNode.first
     return unless g.graph.edges.find {|edge| edge.id == id }
     g.graph.edges.each { |edge|
       if edge.id == id
@@ -51,7 +51,7 @@ class Distance < ApplicationRecord
   end
 
   def remove_edge
-    g = GraphNode.first
+    g = GraphTimeNode.first
     g.graph.edges.delete_if {|obj| obj.id == id}
     g.save!
   end

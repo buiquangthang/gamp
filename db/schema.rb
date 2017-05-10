@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424032636) do
+ActiveRecord::Schema.define(version: 20170510103759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bus_lines", force: :cascade do |t|
+    t.string   "name"
+    t.time     "operating_from"
+    t.time     "operating_to"
+    t.text     "in_charge_unit"
+    t.integer  "ticket_fee"
+    t.text     "description"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "bus_routes", force: :cascade do |t|
     t.string   "name"
@@ -37,7 +48,7 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.index ["origin"], name: "index_distances_on_origin", using: :btree
   end
 
-  create_table "graph_nodes", force: :cascade do |t|
+  create_table "graph_time_nodes", force: :cascade do |t|
     t.text     "graph"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -51,24 +62,12 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "list_nodes", force: :cascade do |t|
+  create_table "list_time_nodes", force: :cascade do |t|
     t.integer  "bus_route_id"
     t.text     "list"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["bus_route_id"], name: "index_list_nodes_on_bus_route_id", using: :btree
-  end
-
-  create_table "nodes", force: :cascade do |t|
-    t.integer  "bus_route_id"
-    t.integer  "place_id"
-    t.time     "arrival_time"
-    t.integer  "list_node_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["bus_route_id"], name: "index_nodes_on_bus_route_id", using: :btree
-    t.index ["list_node_id"], name: "index_nodes_on_list_node_id", using: :btree
-    t.index ["place_id"], name: "index_nodes_on_place_id", using: :btree
+    t.index ["bus_route_id"], name: "index_list_time_nodes_on_bus_route_id", using: :btree
   end
 
   create_table "place_routes", force: :cascade do |t|
@@ -91,6 +90,18 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "time_nodes", force: :cascade do |t|
+    t.integer  "bus_route_id"
+    t.integer  "place_id"
+    t.time     "arrival_time"
+    t.integer  "list_time_node_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["bus_route_id"], name: "index_time_nodes_on_bus_route_id", using: :btree
+    t.index ["list_time_node_id"], name: "index_time_nodes_on_list_time_node_id", using: :btree
+    t.index ["place_id"], name: "index_time_nodes_on_place_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -108,10 +119,10 @@ ActiveRecord::Schema.define(version: 20170424032636) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "list_nodes", "bus_routes"
-  add_foreign_key "nodes", "bus_routes"
-  add_foreign_key "nodes", "list_nodes"
-  add_foreign_key "nodes", "places"
+  add_foreign_key "list_time_nodes", "bus_routes"
   add_foreign_key "place_routes", "bus_routes"
   add_foreign_key "place_routes", "places"
+  add_foreign_key "time_nodes", "bus_routes"
+  add_foreign_key "time_nodes", "list_time_nodes"
+  add_foreign_key "time_nodes", "places"
 end

@@ -1,3 +1,3 @@
-class GraphNode < ApplicationRecord
+class GraphTimeNode < ApplicationRecord
   serialize :graph, Graph
 end

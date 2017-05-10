@@ -6,13 +6,13 @@ class Link < ApplicationRecord
   validates_uniqueness_of :origin, scope: [:destination]
 
   def update_cost
-    node_destination = Node.find_by id: destination
-    node_origin = Node.find_by id: origin
+    node_destination = TimeNode.find_by id: destination
+    node_origin = TimeNode.find_by id: origin
     self.cost = node_destination.arrival_time - node_origin.arrival_time
   end
 
   # def create_edge
-  #   g = GraphNode.first
+  #   g = GraphTimeNode.first
   #   g.graph.connect_mutually origin, destination, id, cost
   #   g.save!
   # end

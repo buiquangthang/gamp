@@ -128,7 +128,7 @@ class BusRoutesController < ApplicationController
 
     def delete_nodes
       @list_places.each do |place_id|
-        nodes = Node.where(bus_route: @bus_route, place_id: place_id)
+        nodes = TimeNode.where(bus_route: @bus_route, place_id: place_id)
         nodes.each do |node|
           destination_links = Link.where(destination: node.id)
           origin_links = Link.where(origin: node.id)
@@ -152,7 +152,7 @@ class BusRoutesController < ApplicationController
       @bus_route.list_nodes.each do |ln|
         previous_list_length = ln.list.length
         @list_places.each do |place_id|
-          node = Node.create bus_route: @bus_route, place_id: place_id,
+          node = TimeNode.create bus_route: @bus_route, place_id: place_id,
             list_node: ln, arrival_time: "00:00"
           ln.list.push node.id
         end
@@ -168,7 +168,7 @@ class BusRoutesController < ApplicationController
       list_places = @bus_route.list_places
       @bus_route.list_nodes.each do |ln|
         previous_list = ln.list
-        nodes = Node.of_ids(previous_list)
+        nodes = TimeNode.of_ids(previous_list)
         new_list = []
         list_places.each do |lp|
           new_list.push(nodes.find{|n| n.place_id == lp}.id)

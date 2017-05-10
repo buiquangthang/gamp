@@ -5,8 +5,8 @@ namespace :db do
   task testing: :environment do
     graph = Graph.new
     nodes = [0]
-    node_ids = Node.pluck(:id)
-    node_ids.map {|id| graph.add_node(nodes[id] = Nod.new("Node #{id}"))}
+    node_ids = TimeNode.pluck(:id)
+    node_ids.map {|id| graph.add_node(nodes[id] = Nod.new("TimeNode #{id}"))}
     links = Link.all
     links.each do |link|
       graph.add_edge(nodes[link.origin], nodes[link.destination], link.cost)
@@ -36,17 +36,17 @@ namespace :db do
     nodes_end = []
 
     start_places.each do |place|
-      temps = Node.where("CAST(arrival_time as time) between '01:00' and '03:00' AND place_id = #{place.id}").pluck(:id)
+      temps = TimeNode.where("CAST(arrival_time as time) between '01:00' and '03:00' AND place_id = #{place.id}").pluck(:id)
       nodes_start = nodes_start + temps
     end
 
     end_places.each do |place|
-      temps = Node.where("CAST(arrival_time as time) between '01:00' and '03:00' AND place_id = #{place.id}").pluck(:id)
+      temps = TimeNode.where("CAST(arrival_time as time) between '01:00' and '03:00' AND place_id = #{place.id}").pluck(:id)
       nodes_end = nodes_end + temps
     end
 
-    node_start = Nod.new("Node Start")
-    node_end = Nod.new("Node end")
+    node_start = Nod.new("TimeNode Start")
+    node_end = Nod.new("TimeNode end")
     graph.add_node node_start
     graph.add_node node_end
 

@@ -57,7 +57,7 @@ class Place < ApplicationRecord
   private
 
   def push_node
-    g = GraphNode.first
+    g = GraphTimeNode.first
     g.graph.push id
     g.save!
   end
