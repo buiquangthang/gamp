@@ -2,14 +2,14 @@ class TimetablesController < ApplicationController
   before_action :set_bus_route
 
   def index
-    @places = Place.of_ids(@bus_route.list_places)
+    @bus_stations = BusStation.of_ids(@bus_route.list_bus_stations)
     list_nodes = []
-    @nodes = @bus_route.nodes
-    @bus_route.list_nodes.each do |ln|
+    @nodes = @bus_route.time_nodes
+    @bus_route.list_time_nodes.each do |ln|
       list_nodes.push(ln.list)
     end
-    @matrix_node = Array.new(@bus_route.list_places.length) {Array.new(list_nodes.length)}
-    @bus_route.list_places.length.times do |i|
+    @matrix_node = Array.new(@bus_route.list_bus_stations.length) {Array.new(list_nodes.length)}
+    @bus_route.list_bus_stations.length.times do |i|
       list_nodes.length.times do |j|
         @matrix_node[i][j] = TimeNode.find_by id: list_nodes[j][i]
       end
@@ -23,14 +23,17 @@ class TimetablesController < ApplicationController
     list_nodes.each do |nodes|
       list_n = ListTimeNode.create bus_route: @bus_route
       nodes[1].each do |key, value|
-        place = Place.find_by code: key
-        node = TimeNode.create place: place, arrival_time: value,
-          bus_route: @bus_route, list_node: list_n
+        bus_station = BusStation.find_by code: key
+        node = TimeNode.create bus_station: bus_station, arrival_time: value,
+          bus_route: @bus_route, list_time_node: list_n
         list_n.list.push(node.id)
       end
       node_ids = list_n.list
-      (node_ids.length-1).times do |i|
-        Link.create origin: node_ids[i], destination: node_ids[i+1] 
+      nodes_array = TimeNode.of_ids(node_ids)
+        .index_by(&:id).values_at(*node_ids)
+      (nodes_array.length-1).times do |i|
+        Link.create origin: nodes_array[i].id, destination: nodes_array[i+1].id,
+          cost: nodes_array[i+1].arrival_time - nodes_array[i].arrival_time
       end
       list_n.save
     end

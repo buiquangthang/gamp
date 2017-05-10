@@ -2,8 +2,8 @@
 
 one:
   bus_route: one
-  place: 
+  bus_station: 
 
 two:
   bus_route: two
-  place: 
+  bus_station: 

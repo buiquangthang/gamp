@@ -1,12 +1,12 @@
 <div class="page-header">
-  <%= link_to new_place_path, class: 'btn btn-primary' do %>
+  <%= link_to new_bus_station_path, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    New Place
+    New BusStation
   <% end %>
-  <h1>Listing places</h1>
+  <h1>Listing bus_stations</h1>
   <h2>Import Busstops</h2>
 
-  <%= form_tag import_places_path, multipart: true do %>
+  <%= form_tag import_bus_stations_path, multipart: true do %>
     <%= file_field_tag :file %>
     <%= submit_tag "Import" %>
   <% end %>
@@ -29,16 +29,16 @@
     </thead>
 
     <tbody>
-      <%= content_tag_for(:tr, @places) do |place| %>
-            <td><%= place.id %></td>
-            <td><%= place.latitude %></td>
-            <td><%= place.longitude %></td>
-            <td><%= place.name %></td>
-            <td><%= place.address %></td>
-            <td><%= place.title %></td>
-            <td><%= link_to 'Show', place %></td>
-        <td><%= link_to 'Edit', edit_place_path(place) %></td>
-        <td><%= link_to 'Destroy', place, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <%= content_tag_for(:tr, @bus_stations) do |bus_station| %>
+            <td><%= bus_station.id %></td>
+            <td><%= bus_station.latitude %></td>
+            <td><%= bus_station.longitude %></td>
+            <td><%= bus_station.name %></td>
+            <td><%= bus_station.address %></td>
+            <td><%= bus_station.title %></td>
+            <td><%= link_to 'Show', bus_station %></td>
+        <td><%= link_to 'Edit', edit_bus_station_path(bus_station) %></td>
+        <td><%= link_to 'Destroy', bus_station, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <% end %>
     </tbody>
   </table>

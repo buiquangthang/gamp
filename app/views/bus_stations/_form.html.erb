@@ -1,11 +1,11 @@
-<%= form_for(@place, html: { class: "form-horizontal", role: "form" }) do |f| %>
-  <% if @place.errors.any? %>
+<%= form_for(@bus_station, html: { class: "form-horizontal", role: "form" }) do |f| %>
+  <% if @bus_station.errors.any? %>
     <div class="alert alert-danger alert-dismissable" role="alert">
       <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      <h4><%= pluralize(@place.errors.count, "error") %> prohibited this place from being saved:</h4>
+      <h4><%= pluralize(@bus_station.errors.count, "error") %> prohibited this bus_station from being saved:</h4>
 
       <ul>
-      <% @place.errors.full_messages.each do |msg| %>
+      <% @bus_station.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

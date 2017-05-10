@@ -1,48 +1,48 @@
 require 'test_helper'
 
-class PlacesControllerTest < ActionDispatch::IntegrationTest
+class BusStationsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @place = places(:one)
+    @bus_station = bus_stations(:one)
   end
 
   test "should get index" do
-    get places_url
+    get bus_stations_url
     assert_response :success
   end
 
   test "should get new" do
-    get new_place_url
+    get new_bus_station_url
     assert_response :success
   end
 
-  test "should create place" do
-    assert_difference('Place.count') do
-      post places_url, params: { place: { address: @place.address, latitude: @place.latitude, longtitude: @place.longtitude, name: @place.name, title: @place.title } }
+  test "should create bus_station" do
+    assert_difference('BusStation.count') do
+      post bus_stations_url, params: { bus_station: { address: @bus_station.address, latitude: @bus_station.latitude, longtitude: @bus_station.longtitude, name: @bus_station.name, title: @bus_station.title } }
     end
 
-    assert_redirected_to place_url(Place.last)
+    assert_redirected_to bus_station_url(BusStation.last)
   end
 
-  test "should show place" do
-    get place_url(@place)
+  test "should show bus_station" do
+    get bus_station_url(@bus_station)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_place_url(@place)
+    get edit_bus_station_url(@bus_station)
     assert_response :success
   end
 
-  test "should update place" do
-    patch place_url(@place), params: { place: { address: @place.address, latitude: @place.latitude, longtitude: @place.longtitude, name: @place.name, title: @place.title } }
-    assert_redirected_to place_url(@place)
+  test "should update bus_station" do
+    patch bus_station_url(@bus_station), params: { bus_station: { address: @bus_station.address, latitude: @bus_station.latitude, longtitude: @bus_station.longtitude, name: @bus_station.name, title: @bus_station.title } }
+    assert_redirected_to bus_station_url(@bus_station)
   end
 
-  test "should destroy place" do
-    assert_difference('Place.count', -1) do
-      delete place_url(@place)
+  test "should destroy bus_station" do
+    assert_difference('BusStation.count', -1) do
+      delete bus_station_url(@bus_station)
     end
 
-    assert_redirected_to places_url
+    assert_redirected_to bus_stations_url
   end
 end

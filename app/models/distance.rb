@@ -13,8 +13,8 @@ class Distance < ApplicationRecord
   validates_uniqueness_of :origin, scope: [:destination, :bus_route_id]
 
   def get_distance
-    place_from = Place.find_by id: origin
-    place_to = Place.find_by id: destination
+    bus_station_from = BusStation.find_by id: origin
+    bus_station_to = BusStation.find_by id: destination
 
     @matrix = GoogleDistanceMatrix::Matrix.new
     @matrix.configure do |config|
@@ -23,8 +23,8 @@ class Distance < ApplicationRecord
       config.google_api_key = "AIzaSyCzjkYK_6usldy2pnjk7COj7CM0qf2w388"
     end
 
-    lat_lng = GoogleDistanceMatrix::Place.new lng: place_from.longitude, lat: place_from.latitude
-    dest_address = GoogleDistanceMatrix::Place.new lng: place_to.longitude, lat: place_to.latitude
+    lat_lng = GoogleDistanceMatrix::BusStation.new lng: bus_station_from.longitude, lat: bus_station_from.latitude
+    dest_address = GoogleDistanceMatrix::BusStation.new lng: bus_station_to.longitude, lat: bus_station_to.latitude
 
     @matrix.origins << lat_lng
     @matrix.destinations << dest_address

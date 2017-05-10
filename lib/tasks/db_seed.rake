@@ -7,15 +7,15 @@ namespace :db do
 
     bus_routes.each do |bus_route|
       t = Time.zone.parse("2000-01-01 07:00").utc
-      10.times do |n|
+      20.times do |n|
         puts n
         puts t
         t_temp = t
         list_node = ListTimeNode.create bus_route: bus_route
-        list_places = bus_route.list_places
-        list_places.each do |place_id|
-          node = TimeNode.create bus_route: bus_route, place_id: place_id,
-            arrival_time: t_temp, list_node: list_node
+        list_bus_stations = bus_route.list_bus_stations
+        list_bus_stations.each do |bus_station_id|
+          node = TimeNode.create bus_route: bus_route, bus_station_id: bus_station_id,
+            arrival_time: t_temp, list_time_node: list_node
           list_node.list.push(node.id)
           t_temp = t_temp + 5*60
         end

@@ -13,6 +13,8 @@
 //= require_self
 //= require jquery
 //= require jquery_ujs
+//= require dataTables/jquery.dataTables
+//= require jquery-ui/core
 //= require jquery.turbolinks
 //= require bootstrap
 //= require underscore

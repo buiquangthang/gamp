@@ -15,8 +15,8 @@ namespace :db do
     coor_start = [16.071059, 108.185652]
     coor_end = [16.086070, 108.218879]
 
-    start_places = Place.near(coor_start, 0.8, units: :km)
-    end_places = Place.near(coor_end, 0.8, units: :km)
+    start_bus_stations = BusStation.near(coor_start, 0.8, units: :km)
+    end_bus_stations = BusStation.near(coor_end, 0.8, units: :km)
 
     # matrix = GoogleDistanceMatrix::Matrix.new
     # matrix.configure do |config|
@@ -25,8 +25,8 @@ namespace :db do
     #   config.google_api_key = "AIzaSyCzjkYK_6usldy2pnjk7COj7CM0qf2w388"
     # end
 
-    # lat_lng = GoogleDistanceMatrix::Place.new lng: coor_start[1], lat: coor_start[0]
-    # dest_address = GoogleDistanceMatrix::Place.new lng: coor_end[1], lat: coor_end[0]
+    # lat_lng = GoogleDistanceMatrix::BusStation.new lng: coor_start[1], lat: coor_start[0]
+    # dest_address = GoogleDistanceMatrix::BusStation.new lng: coor_end[1], lat: coor_end[0]
 
     # matrix.origins << lat_lng
     # matrix.destinations << dest_address
@@ -35,13 +35,13 @@ namespace :db do
     nodes_start = []
     nodes_end = []
 
-    start_places.each do |place|
-      temps = TimeNode.where("CAST(arrival_time as time) between '01:00' and '03:00' AND place_id = #{place.id}").pluck(:id)
+    start_bus_stations.each do |bus_station|
+      temps = TimeNode.where("CAST(arrival_time as time) between '01:00' and '03:00' AND bus_station_id = #{bus_station.id}").pluck(:id)
       nodes_start = nodes_start + temps
     end
 
-    end_places.each do |place|
-      temps = TimeNode.where("CAST(arrival_time as time) between '01:00' and '03:00' AND place_id = #{place.id}").pluck(:id)
+    end_bus_stations.each do |bus_station|
+      temps = TimeNode.where("CAST(arrival_time as time) between '01:00' and '03:00' AND bus_station_id = #{bus_station.id}").pluck(:id)
       nodes_end = nodes_end + temps
     end
 

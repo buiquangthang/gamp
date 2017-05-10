@@ -10,7 +10,6 @@
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-        <th>Name</th>
         <th>Type</th>
         <th></th>
         <th></th>
@@ -20,7 +19,6 @@
 
     <tbody>
       <%= content_tag_for(:tr, @bus_routes) do |bus_route| %>
-        <td><%= bus_route.name %></td>
         <td><%= bus_route.bus_type %></td>
         <td><%= link_to 'Show', bus_route %></td>
         <td><%= link_to 'Edit', edit_bus_route_path(bus_route) %></td>

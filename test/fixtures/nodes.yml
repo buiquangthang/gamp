@@ -2,10 +2,10 @@
 
 one:
   bus_route: one
-  place: one
+  bus_station: one
   arrival_time: 2017-04-19 09:25:47
 
 two:
   bus_route: two
-  place: two
+  bus_station: two
   arrival_time: 2017-04-19 09:25:47

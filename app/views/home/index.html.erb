@@ -20,10 +20,10 @@
         <input type="text" class="form-control">
       </div>
       <div class="list-group">
-        <% @bus_routes.each do |route| %>
-          <%= link_to show_bus_route_path(route.id),
+        <% @bus_lines.each do |line| %>
+          <%= link_to "#",
             remote: true, class: "list-group-item" do %>
-            <h4 class="list-group-item-heading"><%= route.name %></h4>
+            <h4 class="list-group-item-heading"><%= line.name %></h4>
             <p class="list-group-item-text">...</p>
           <% end %>
         <% end %>
@@ -31,8 +31,8 @@
     </div>
     <div id="search-bus" class="tab-pane fade">
       <div class="search-route">
-        <input type="text" class="form-control" placeholder="Start" id="start-point-txt">
-        <input type="text" class="form-control" placeholder="Finish" style="margin-top: 10px" id="end-point-txt">
+        <input type="text" class="form-control" bus_stationholder="Start" id="start-point-txt">
+        <input type="text" class="form-control" bus_stationholder="Finish" style="margin-top: 10px" id="end-point-txt">
       </div>
       <div class="search-route">
         <a href="#" class="btn btn-success" id="search-bus-btn">Search</a>
@@ -49,23 +49,3 @@
 <script>
   window.onload = initialise();
 </script>
-
-<style>
-  /*  start styles for the ContextMenu  */
-.context_menu{
-  background-color:white;
-  border:1px solid gray;
-}
-.context_menu_item{
-  padding:3px 6px;
-}
-.context_menu_item:hover{
-  background-color:#CCCCCC;
-}
-.context_menu_separator{
-  background-color:gray;
-  height:1px;
-  margin:0;
-  padding:0;
-}
-</style>

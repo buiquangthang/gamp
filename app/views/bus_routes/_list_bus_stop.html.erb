@@ -1,10 +1,10 @@
-<% places.each_with_index do |place, index| %>
+<% bus_stations.each_with_index do |bus_station, index| %>
   <tr class="search-user-image">
     <td>
-      <%= check_box_tag "places[]", place.id, false, 
-        id: "user-add-#{place.id}", class: "user-add",
+      <%= check_box_tag "bus_stations[]", bus_station.id, false, 
+        id: "user-add-#{bus_station.id}", class: "user-add",
         onclick: "check_user(this)" %>
-      <strong><%= place.name %></strong>
+      <strong><%= bus_station.name %></strong>
     </td>
   </tr>
 <% end %>

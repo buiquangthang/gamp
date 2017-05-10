@@ -29,6 +29,9 @@ gem 'roo'
 gem 'iconv'
 gem 'jquery-turbolinks'
 gem 'devise'
+gem 'jquery-datatables-rails'
+gem 'jquery-ui-rails'
+gem 'will_paginate'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

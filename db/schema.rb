@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510103759) do
+ActiveRecord::Schema.define(version: 20170424032636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,12 +27,33 @@ ActiveRecord::Schema.define(version: 20170510103759) do
   end
 
   create_table "bus_routes", force: :cascade do |t|
-    t.string   "name"
     t.integer  "bus_type"
-    t.text     "list_places"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["name", "bus_type"], name: "index_bus_routes_on_name_and_bus_type", unique: true, using: :btree
+    t.text     "list_bus_stations"
+    t.integer  "bus_line_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["bus_line_id", "bus_type"], name: "index_bus_routes_on_bus_line_id_and_bus_type", unique: true, using: :btree
+    t.index ["bus_line_id"], name: "index_bus_routes_on_bus_line_id", using: :btree
+  end
+
+  create_table "bus_station_routes", force: :cascade do |t|
+    t.integer  "bus_route_id"
+    t.integer  "bus_station_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["bus_route_id"], name: "index_bus_station_routes_on_bus_route_id", using: :btree
+    t.index ["bus_station_id"], name: "index_bus_station_routes_on_bus_station_id", using: :btree
+  end
+
+  create_table "bus_stations", force: :cascade do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "name"
+    t.string   "address"
+    t.string   "title"
+    t.string   "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "distances", force: :cascade do |t|
@@ -70,36 +91,16 @@ ActiveRecord::Schema.define(version: 20170510103759) do
     t.index ["bus_route_id"], name: "index_list_time_nodes_on_bus_route_id", using: :btree
   end
 
-  create_table "place_routes", force: :cascade do |t|
-    t.integer  "bus_route_id"
-    t.integer  "place_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["bus_route_id"], name: "index_place_routes_on_bus_route_id", using: :btree
-    t.index ["place_id"], name: "index_place_routes_on_place_id", using: :btree
-  end
-
-  create_table "places", force: :cascade do |t|
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "name"
-    t.string   "address"
-    t.string   "title"
-    t.string   "code"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "time_nodes", force: :cascade do |t|
     t.integer  "bus_route_id"
-    t.integer  "place_id"
+    t.integer  "bus_station_id"
     t.time     "arrival_time"
     t.integer  "list_time_node_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["bus_route_id"], name: "index_time_nodes_on_bus_route_id", using: :btree
+    t.index ["bus_station_id"], name: "index_time_nodes_on_bus_station_id", using: :btree
     t.index ["list_time_node_id"], name: "index_time_nodes_on_list_time_node_id", using: :btree
-    t.index ["place_id"], name: "index_time_nodes_on_place_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -119,10 +120,10 @@ ActiveRecord::Schema.define(version: 20170510103759) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "bus_station_routes", "bus_routes"
+  add_foreign_key "bus_station_routes", "bus_stations"
   add_foreign_key "list_time_nodes", "bus_routes"
-  add_foreign_key "place_routes", "bus_routes"
-  add_foreign_key "place_routes", "places"
   add_foreign_key "time_nodes", "bus_routes"
+  add_foreign_key "time_nodes", "bus_stations"
   add_foreign_key "time_nodes", "list_time_nodes"
-  add_foreign_key "time_nodes", "places"
 end

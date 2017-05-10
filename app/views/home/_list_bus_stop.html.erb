@@ -1,6 +1,6 @@
-<% @bus_route.list_places.each do |i| %>
-  <% place = @places.find{|place| place.id == i} %>
-  <a href="#" class="list-group-item marker-link" data-markerid="<%= place.id %>">
-    <%= place.name %>
+<% @bus_route.list_bus_stations.each do |i| %>
+  <% bus_station = @bus_stations.find{|bus_station| bus_station.id == i} %>
+  <a href="#" class="list-group-item marker-link" data-markerid="<%= bus_station.id %>">
+    <%= bus_station.name %>
   </a>
 <% end %>
