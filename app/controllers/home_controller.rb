@@ -2,18 +2,18 @@ class HomeController < ApplicationController
   before_action :set_bus_route, only: :show_bus_route
 
   def index
-    @bus_routes = BusRoute.all
+    @bus_lines = BusLine.all
   end
 
-  def show_bus_route
-    @places = Place.of_ids(@bus_route.list_places)
-    @another_places = Place.not_in_routes(@bus_route.list_places)
+  def show_bus_line
+    @bus_stations = BusStation.of_ids(@bus_route.list_bus_stations)
+    @another_bus_stations = BusStation.not_in_routes(@bus_route.list_bus_stations)
     @distances = @bus_route.distances
-    @hash = Gmaps4rails.build_markers(@places) do |place, marker|
-      marker.lat place.latitude
-      marker.lng place.longitude
-      marker.infowindow place.title
-      marker.json({id: place.id})
+    @hash = Gmaps4rails.build_markers(@bus_stations) do |bus_station, marker|
+      marker.lat bus_station.latitude
+      marker.lng bus_station.longitude
+      marker.infowindow bus_station.title
+      marker.json({id: bus_station.id})
     end
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'User was successfully created.'}

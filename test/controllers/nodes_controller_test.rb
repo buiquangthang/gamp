@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class NodesControllerTest < ActionDispatch::IntegrationTest
+class TimeNodesControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

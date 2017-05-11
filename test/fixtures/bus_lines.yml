@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  operating_from: 2017-05-10 17:37:59
+  operating_to: 2017-05-10 17:37:59
+  in_charge_unit: MyText
+  ticket_fee: 1
+  description: MyText
+
+two:
+  name: MyString
+  operating_from: 2017-05-10 17:37:59
+  operating_to: 2017-05-10 17:37:59
+  in_charge_unit: MyText
+  ticket_fee: 1
+  description: MyText

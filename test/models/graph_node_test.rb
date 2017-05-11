@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GraphNodeTest < ActiveSupport::TestCase
+class GraphTimeNodeTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ListNodeTest < ActiveSupport::TestCase
+class ListTimeNodeTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

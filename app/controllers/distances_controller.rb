@@ -26,10 +26,10 @@ class DistancesController < ApplicationController
   def create
     @distance = Distance.new(distance_params)
 
-    place_from_id = params[:distance][:busstop_from].to_i
-    place_to_id = params[:distance][:busstop_to].to_i
+    bus_station_from_id = params[:distance][:busstop_from].to_i
+    bus_station_to_id = params[:distance][:busstop_to].to_i
 
-    distance_meters = get_distance(place_from_id, place_to_id)
+    distance_meters = get_distance(bus_station_from_id, bus_station_to_id)
 
     @distance.distance_metter = distance_meters
     respond_to do |format|
@@ -46,10 +46,10 @@ class DistancesController < ApplicationController
   # PATCH/PUT /distances/1
   # PATCH/PUT /distances/1.json
   def update
-    place_from_id = params[:distance][:busstop_from].to_i
-    place_to_id = params[:distance][:busstop_to].to_i
+    bus_station_from_id = params[:distance][:busstop_from].to_i
+    bus_station_to_id = params[:distance][:busstop_to].to_i
 
-    distance_meters = get_distance(place_from_id, place_to_id)
+    distance_meters = get_distance(bus_station_from_id, bus_station_to_id)
 
     params[:distance][:distance_metter] = distance_meters
     respond_to do |format|
@@ -84,9 +84,9 @@ class DistancesController < ApplicationController
       params.require(:distance).permit(:busstop_from, :busstop_to, :distance_metter)
     end
 
-    def get_distance place_from_id, place_to_id
-      place_from = Place.find_by id: place_from_id
-      place_to = Place.find_by id: place_to_id
+    def get_distance bus_station_from_id, bus_station_to_id
+      bus_station_from = BusStation.find_by id: bus_station_from_id
+      bus_station_to = BusStation.find_by id: bus_station_to_id
 
       @matrix = GoogleDistanceMatrix::Matrix.new
       @matrix.configure do |config|
@@ -95,8 +95,8 @@ class DistancesController < ApplicationController
         config.google_api_key = "AIzaSyCzjkYK_6usldy2pnjk7COj7CM0qf2w388"
       end
 
-      lat_lng = GoogleDistanceMatrix::Place.new lng: place_from.longitude, lat: place_from.latitude
-      dest_address = GoogleDistanceMatrix::Place.new lng: place_to.longitude, lat: place_to.latitude
+      lat_lng = GoogleDistanceMatrix::BusStation.new lng: bus_station_from.longitude, lat: bus_station_from.latitude
+      dest_address = GoogleDistanceMatrix::BusStation.new lng: bus_station_to.longitude, lat: bus_station_to.latitude
 
       @matrix.origins << lat_lng
       @matrix.destinations << dest_address

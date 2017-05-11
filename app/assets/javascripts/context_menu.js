@@ -121,7 +121,7 @@ ContextMenu.prototype.onAdd=function(){
 };
 
 ContextMenu.prototype.onRemove=function(){
-  this.menu_.parentNode.removeChild(this.menu_);
+  this.menu_.parentTimeNode.removeChild(this.menu_);
   delete this.mapDiv_;
   delete this.menu_;
   delete this.position_;

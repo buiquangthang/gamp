@@ -1,6 +1,6 @@
-class CreatePlaces < ActiveRecord::Migration[5.0]
+class CreateBusStations < ActiveRecord::Migration[5.0]
   def change
-    create_table :places do |t|
+    create_table :bus_stations do |t|
       t.float :latitude
       t.float :longitude
       t.string :name

@@ -3,7 +3,7 @@ class SearchController < ApplicationController
     # initial graph
     graph = Graph.new
     nodes = [0]
-    node_ids = Node.pluck(:id)
+    node_ids = TimeNode.pluck(:id)
     node_ids.map {|id| graph.add_node(nodes[id] = Nod.new("#{id}"))}
     links = Link.all
     links.each do |link|
@@ -15,25 +15,25 @@ class SearchController < ApplicationController
     coor_end = params["end_point"].split(",").map {|f| f.to_f}
 
     # find nearest bus stop inside radius
-    start_places = Place.near(coor_start, 0.8, units: :km)
-    end_places = Place.near(coor_end, 0.8, units: :km)
+    start_bus_stations = BusStation.near(coor_start, 0.8, units: :km)
+    end_bus_stations = BusStation.near(coor_end, 0.8, units: :km)
 
     nodes_start = []
     nodes_end = []
 
-    # get node nearest time and place
-    start_places.each do |place|
-      temps = Node.where("CAST(arrival_time as time) between '07:00' and '12:00' AND place_id = #{place.id}").pluck(:id)
+    # get node nearest time and bus_station
+    start_bus_stations.each do |bus_station|
+      temps = TimeNode.where("CAST(arrival_time as time) between '07:00' and '12:00' AND bus_station_id = #{bus_station.id}").pluck(:id)
       nodes_start = nodes_start + temps
     end
 
-    end_places.each do |place|
-      temps = Node.where("CAST(arrival_time as time) between '07:00' and '12:00' AND place_id = #{place.id}").pluck(:id)
+    end_bus_stations.each do |bus_station|
+      temps = TimeNode.where("CAST(arrival_time as time) between '07:00' and '12:00' AND bus_station_id = #{bus_station.id}").pluck(:id)
       nodes_end = nodes_end + temps
     end
 
-    node_start = Nod.new("Node Start")
-    node_end = Nod.new("Node end")
+    node_start = Nod.new("TimeNode Start")
+    node_end = Nod.new("TimeNode end")
     graph.add_node node_start
     graph.add_node node_end
 
@@ -58,17 +58,18 @@ class SearchController < ApplicationController
 
     #calculate result and response to user
     result_node_ids = nodes_result.map(&:to_i)
-    result_nodes = Node.where(id: result_node_ids).includes(:bus_route, :place)
+    result_nodes = TimeNode.where(id: result_node_ids).includes(:bus_route, :bus_station)
       .index_by(&:id).values_at(*result_node_ids)
 
+    binding.pry
     result_distance = []
-    @places = []
+    @bus_stations = []
 
     (result_nodes.length - 1).times do |i|
-      next if result_nodes[i].place == result_nodes[i+1].place
-      result_distance.push Distance.find_by origin: result_nodes[i].place.id,
-        destination: result_nodes[i+1].place.id
-      @places.push result_nodes[i].place
+      next if result_nodes[i].bus_station == result_nodes[i+1].bus_station
+      result_distance.push Distance.find_by origin: result_nodes[i].bus_station.id,
+        destination: result_nodes[i+1].bus_station.id
+      @bus_stations.push result_nodes[i].bus_station
     end
 
     @direction_result = {}
@@ -77,23 +78,23 @@ class SearchController < ApplicationController
     result_nodes.each_with_index do |node, index|
       if index-1 < 0 || node.bus_route != result_nodes[index - 1].bus_route
         temp_direction_result[:node_start] = node
-        temp_direction_result[:place_start] = node.place
+        temp_direction_result[:bus_station_start] = node.bus_station
       elsif index + 1 == result_nodes.length || node.bus_route != result_nodes[index + 1].bus_route
         temp_direction_result[:node_end] = node
-        temp_direction_result[:place_end] = node.place
+        temp_direction_result[:bus_station_end] = node.bus_station
         @direction_result[node.bus_route] = temp_direction_result
         temp_direction_result = {}
       end
     end
 
-    @places.push result_nodes.last.place
+    @bus_stations.push result_nodes.last.bus_station
     #show route
     @distances = result_distance
-    @hash = Gmaps4rails.build_markers(@places) do |place, marker|
-      marker.lat place.latitude
-      marker.lng place.longitude
-      marker.infowindow place.title
-      marker.json({id: place.id})
+    @hash = Gmaps4rails.build_markers(@bus_stations) do |bus_station, marker|
+      marker.lat bus_station.latitude
+      marker.lng bus_station.longitude
+      marker.infowindow bus_station.title
+      marker.json({id: bus_station.id})
     end
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'User was successfully created.'}

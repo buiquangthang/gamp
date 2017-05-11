@@ -1,18 +1,17 @@
-class Node < ApplicationRecord
+class TimeNode < ApplicationRecord
   after_create :update_links_after_create
-  # after_create :push_node
   after_update :update_links_after_update
 
   belongs_to :bus_route
-  belongs_to :place
-  belongs_to :list_node
+  belongs_to :bus_station
+  belongs_to :list_time_node
 
   scope :of_ids, -> node_ids do
     where(id: node_ids)
   end
 
   def update_links_after_create
-    nodes = Node.where(place: place).order("arrival_time asc")
+    nodes = TimeNode.where(bus_station: bus_station).order("arrival_time asc")
     nodes.each do |node|
       next if node.id == id || node.bus_route_id == bus_route_id
       if node.arrival_time > arrival_time
@@ -22,7 +21,7 @@ class Node < ApplicationRecord
       end
     end
 
-    nodes_inside_bus_route = Node.where(place: place, bus_route_id: bus_route_id).order("arrival_time asc")
+    nodes_inside_bus_route = TimeNode.where(bus_station: bus_station, bus_route_id: bus_route_id).order("arrival_time asc")
     return if nodes_inside_bus_route.size < 2
     index_current_node = nodes_inside_bus_route.index(self)
     if index_current_node == 0
@@ -37,7 +36,7 @@ class Node < ApplicationRecord
   end
 
   def update_links_after_update
-    nodes = Node.where(place: place).order("arrival_time asc")
+    nodes = TimeNode.where(bus_station: bus_station).order("arrival_time asc")
     nodes.each do |node|
       next if node.id == id || node.bus_route_id == bus_route_id
       if node.arrival_time > arrival_time
@@ -46,11 +45,5 @@ class Node < ApplicationRecord
         Link.where(origin: id).update_all(origin: node.id, destination: id)
       end
     end
-  end
-
-  def push_node
-    g = GraphNode.first
-    g.graph.push id
-    g.save!
   end
 end

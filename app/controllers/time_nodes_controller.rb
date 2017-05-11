@@ -1,0 +1,2 @@
+class TimeNodesController < ApplicationController
+end

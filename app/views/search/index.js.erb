@@ -67,10 +67,10 @@
 <% direction_string = "" %>
 <% @direction_result.each do |key, value| %>
   <% direction_string = direction_string + 
-    "Di den tram #{value[:place_start].code} tai dia chi #{value[:place_start].address} " +
+    "Di den tram #{value[:bus_station_start].code} tai dia chi #{value[:bus_station_start].address} " +
     "luc #{value[:node_start].arrival_time}." +
-    "Bat xe buyt #{key.name} luot #{key.bus_type} di den tram " + 
-    "#{value[:place_end].code} tai dia chi #{value[:place_end].address} " +
+    "Bat xe buyt #{key.id} luot #{key.bus_type} di den tram " + 
+    "#{value[:bus_station_end].code} tai dia chi #{value[:bus_station_end].address} " +
     "luc #{value[:node_end].arrival_time}. >>>>>>>>>>>>>>>>>>>>>>>> "
   %>
 <% end %>

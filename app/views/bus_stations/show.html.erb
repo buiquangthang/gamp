@@ -1,30 +1,30 @@
 <div class="page-header">
-  <%= link_to places_path, class: 'btn btn-default' do %>
+  <%= link_to bus_stations_path, class: 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Back
   <% end %>
-  <%= link_to edit_place_path(@place), class: 'btn btn-primary' do %>
+  <%= link_to edit_bus_station_path(@bus_station), class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-pencil"></span>
     Edit
   <% end %>
-  <h1>Show place</h1>
+  <h1>Show bus_station</h1>
 </div>
 
 <dl class="dl-horizontal">
   <dt>Latitude:</dt>
-  <dd><%= @place.latitude %></dd>
+  <dd><%= @bus_station.latitude %></dd>
 
   <dt>Longitude:</dt>
-  <dd><%= @place.longitude %></dd>
+  <dd><%= @bus_station.longitude %></dd>
 
   <dt>Name:</dt>
-  <dd><%= @place.name %></dd>
+  <dd><%= @bus_station.name %></dd>
 
   <dt>Address:</dt>
-  <dd><%= @place.address %></dd>
+  <dd><%= @bus_station.address %></dd>
 
   <dt>Title:</dt>
-  <dd><%= @place.title %></dd>
+  <dd><%= @bus_station.title %></dd>
 
 </dl>
 

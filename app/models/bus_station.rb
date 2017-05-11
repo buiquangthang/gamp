@@ -1,4 +1,4 @@
-class Place < ApplicationRecord
+class BusStation < ApplicationRecord
   geocoded_by :address
   # after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
@@ -10,28 +10,28 @@ class Place < ApplicationRecord
   #   dependent: :destroy
   # has_many :to_distances, class_name: Distance.name, foreign_key: "busstop_to",
   #   dependent: :destroy
-  # has_many :busstops_from, through: :from_distances, source: :place_from
-  # has_many :busstops_to, through: :to_distances, source: :place_to
+  # has_many :busstops_from, through: :from_distances, source: :bus_station_from
+  # has_many :busstops_to, through: :to_distances, source: :bus_station_to
 
-  has_many :place_routes
-  has_many :bus_routes, through: :place_routes
+  has_many :bus_station_routes
+  has_many :bus_routes, through: :bus_station_routes
   has_many :nodes
 
   scope :not_in_object, ->object do
     where("id NOT IN (?)", object.pluck(:id)) if object.any?
   end
 
-  scope :of_ids, -> place_ids do
-    where(id: place_ids)
+  scope :of_ids, -> bus_station_ids do
+    where(id: bus_station_ids)
   end
 
-  scope :not_in_routes, -> place_ids do
-    where.not(id: place_ids)
+  scope :not_in_routes, -> bus_station_ids do
+    where.not(id: bus_station_ids)
   end
 
-  scope :search_address, -> term, place_ids do
+  scope :search_address, -> term, bus_station_ids do
     where("LOWER(address) LIKE :address", address: "%#{term}%")
-      .where.not(id: place_ids)
+      .where.not(id: bus_station_ids)
   end
 
   def self.import(file)
@@ -39,9 +39,9 @@ class Place < ApplicationRecord
     header = spreadsheet.row(12)
     (13..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      place = find_by_id(row["id"]) || new
-      place.attributes = row.to_hash.slice(*row.to_hash.keys)
-      place.save!
+      bus_station = find_by_id(row["id"]) || new
+      bus_station.attributes = row.to_hash.slice(*row.to_hash.keys)
+      bus_station.save!
     end
   end
 
@@ -57,7 +57,7 @@ class Place < ApplicationRecord
   private
 
   def push_node
-    g = GraphNode.first
+    g = GraphTimeNode.first
     g.graph.push id
     g.save!
   end
@@ -73,9 +73,9 @@ class Place < ApplicationRecord
 
     distances = Distance.where("origin = ? or destination = ?", id, id)
     distances.each do |distance|
-      origin = Place.find_by id: distance.origin
+      origin = BusStation.find_by id: distance.origin
       origin_latlng = [origin.latitude, origin.longitude]
-      destination = Place.find_by id: distance.destination
+      destination = BusStation.find_by id: distance.destination
       destination_latlng = [destination.latitude, destination.longitude]
       route = gmaps.directions(origin_latlng, destination_latlng,
         mode: 'driving', alternatives: true)
