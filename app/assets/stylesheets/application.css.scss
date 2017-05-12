@@ -19,31 +19,6 @@
 
 @import "font-awesome";
 
-/*table.scroll tbody,
-table.scroll thead { display: block; }
-
-thead tr th { 
-    height: 30px;
-    line-height: 30px;
-}
-
-table.scroll tbody {
-    height: 500px;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-tbody td, thead th {
-}
-
-tbody td:last-child, thead th:last-child {
-    border-right: none;
-}
-
-table {
-  width: 100%;
-}
-*/
 .paddingbottom {
   padding-bottom: 10px;
 }
@@ -143,13 +118,9 @@ table {
   margin-left: 400px;
 }
 
-.tab-content {
-  background-color: #428bca;
-}
-
 .search-route {
   padding: 10px 10px;
-
+  background-color: #109D59;
   a, h3 {
     color: white;
   }
@@ -160,15 +131,82 @@ table {
   background-color:white;
   border:1px solid gray;
 }
+
 .context_menu_item{
   padding:3px 6px;
 }
-.context_menu_item:hover{
-  background-color:#CCCCCC;
+
+.context_menu_item :hover{
+  background-color: #CCCCCC;
 }
+
 .context_menu_separator{
   background-color:gray;
   height:1px;
   margin:0;
   padding:0;
+}
+
+.back-root {
+  display: inline-block !important;
+}
+
+.bus-line-name {
+  color: white;
+  display: inline-block;
+  width: 250px;
+}
+
+.select-route {
+  display: inline-block !important;
+  font-size: 20px !important;
+  padding: 1px 5px !important;
+  margin-bottom: 10px;
+}
+
+/*** PANEL SUCCESS ***/
+.nav-tabs.nav-custom > li > a,
+.nav-tabs.nav-custom > li > a:hover,
+.nav-tabs.nav-custom > li > a:focus {
+  color: #fff;
+  background-color: #34B67A;
+}
+.nav-tabs.nav-custom > .open > a,
+.nav-tabs.nav-custom > .open > a:hover,
+.nav-tabs.nav-custom > .open > a:focus,
+.nav-tabs.nav-custom > li > a:hover,
+.nav-tabs.nav-custom > li > a:focus {
+  color: #fff;
+  background-color: #109D59;
+  border-color: transparent;
+}
+.nav-tabs.nav-custom > li.active > a,
+.nav-tabs.nav-custom > li.active > a:hover,
+.nav-tabs.nav-custom > li.active > a:focus {
+  color: #fff;
+  background-color: #109D59;
+  border-color: #d6e9c6;
+  border-bottom-color: transparent;
+}
+.nav-tabs.nav-custom > li.dropdown .dropdown-menu {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.nav-tabs.nav-custom > li.dropdown .dropdown-menu > li > a {
+    color: #3c763d;   
+}
+.nav-tabs.nav-custom > li.dropdown .dropdown-menu > li > a:hover,
+.nav-tabs.nav-custom > li.dropdown .dropdown-menu > li > a:focus {
+    background-color: #d6e9c6;
+}
+.nav-tabs.nav-custom > li.dropdown .dropdown-menu > .active > a,
+.nav-tabs.nav-custom > li.dropdown .dropdown-menu > .active > a:hover,
+.nav-tabs.nav-custom > li.dropdown .dropdown-menu > .active > a:focus {
+    color: #fff;
+    background-color: #3c763d;
+}
+
+#bus-line-info > li > a {
+  padding: 0px;
+  font-size: 20px;
 }

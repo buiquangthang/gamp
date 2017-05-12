@@ -1,5 +1,19 @@
-<% @bus_route.list_bus_stations.each do |i| %>
-  <% bus_station = @bus_stations.find{|bus_station| bus_station.id == i} %>
+  <ul class="nav nav-tabs nav-justified nav-custom" id="bus-line-info">
+    <li class="active">
+      <a data-toggle="tab" href="#">
+        <i class="fa fa-search"></i>
+        Tra Cuu
+      </a>
+    </li>
+    <li>
+      <a data-toggle="tab" href="#">
+        <i class="fa fa-map-marker"></i>
+        Tim Duong  
+      </a>
+    </li>
+  </ul>
+
+<% @bus_stations.each do |bus_station| %>
   <a href="#" class="list-group-item marker-link" data-markerid="<%= bus_station.id %>">
     <%= bus_station.name %>
   </a>

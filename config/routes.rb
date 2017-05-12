@@ -22,5 +22,5 @@ Rails.application.routes.draw do
     to: "timetables#update_nodes", as: "update_nodes"
   get "bus_routes/:id/search_bus_stop", to: "bus_routes#search_bus_stop", as: "search_bus_stations"
 
-  get "home/show_bus_route/:bus_route_id", to: "home#show_bus_route", as: "show_bus_route"
+  get "home/show_bus_line/:bus_line_id", to: "home#show_bus_line", as: "show_bus_line"
 end

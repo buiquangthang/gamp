@@ -1,5 +1,5 @@
 <div id="mySidenav" class="sidenav">
-  <ul class="nav nav-tabs nav-justified">
+  <ul class="nav nav-tabs nav-justified nav-custom">
     <li class="active">
       <a data-toggle="tab" href="#list-route">
         <i class="fa fa-search"></i>
@@ -16,12 +16,12 @@
 
   <div class="tab-content">
     <div id="list-route" class="tab-pane fade in active">
-      <div class="search-route">
+      <div class="search-route" id="header">
         <input type="text" class="form-control">
       </div>
       <div class="list-group">
         <% @bus_lines.each do |line| %>
-          <%= link_to "#",
+          <%= link_to show_bus_line_path(line),
             remote: true, class: "list-group-item" do %>
             <h4 class="list-group-item-heading"><%= line.name %></h4>
             <p class="list-group-item-text">...</p>
