@@ -6,7 +6,11 @@ class HomeController < ApplicationController
   end
 
   def show_bus_line
-    @bus_route = @bus_line.bus_routes.di.first
+    if params[:bus_type]
+      @bus_route = params[:bus_type].to_i.even? ? @bus_line.bus_routes.di.first : @bus_line.bus_routes.ve.first
+    else
+      @bus_route = @bus_line.bus_routes.di.first
+    end
     @bus_stations = BusStation.of_ids(@bus_route.list_bus_stations)
       .index_by(&:id).values_at(*@bus_route.list_bus_stations)
     @distances = @bus_route.distances

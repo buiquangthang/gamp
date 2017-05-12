@@ -1,20 +1,47 @@
-  <ul class="nav nav-tabs nav-justified nav-custom" id="bus-line-info">
-    <li class="active">
-      <a data-toggle="tab" href="#">
-        <i class="fa fa-search"></i>
-        Tra Cuu
-      </a>
-    </li>
-    <li>
-      <a data-toggle="tab" href="#">
-        <i class="fa fa-map-marker"></i>
-        Tim Duong  
-      </a>
-    </li>
-  </ul>
+<ul class="nav nav-tabs nav-justified nav-custom" id="bus-line-info">
+  <li class="active">
+    <a data-toggle="tab" href="#list-bus-station-tab">
+      <i class="fa fa-bus" aria-hidden="true"></i>
+      Tram cho
+    </a>
+  </li>
+  <li>
+    <a data-toggle="tab" href="#bus-line-info-tab">
+      <i class="fa fa-info-circle"></i>
+      Thong tin  
+    </a>
+  </li>
+</ul>
 
-<% @bus_stations.each do |bus_station| %>
-  <a href="#" class="list-group-item marker-link" data-markerid="<%= bus_station.id %>">
-    <%= bus_station.name %>
-  </a>
-<% end %>
+<div class="tab-content">
+  <div id="list-bus-station-tab" class="tab-pane fade in active">
+    <% @bus_stations.each do |bus_station| %>
+      <a href="#" class="list-group-item marker-link" data-markerid="<%= bus_station.id %>">
+        <%= bus_station.name %>
+      </a>
+    <% end %>
+  </div>
+  <div id="bus-line-info-tab" class="tab-pane fade">
+    <div class="clear-fix padding-tab">
+      <span>
+        <b>Ten tuyen: </b>
+        <%= @bus_line.name %>
+      </span>
+      <br>
+      <span>
+        <b>Lo trinh: </b>
+        <%= @bus_line.description %>
+      </span>
+      <br>
+      <span>
+        <b>Thoi gian hoat dong: </b>
+        <%= @bus_line.operating_from %>
+      </span>
+      <br>
+      <span>
+        <b>Gia ve: </b>
+        <%= @bus_line.ticket_fee %>
+      </span>
+    </div>
+  </div>
+</div>

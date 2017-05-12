@@ -185,12 +185,12 @@
 .nav-tabs.nav-custom > li.active > a:focus {
   color: #fff;
   background-color: #109D59;
-  border-color: #d6e9c6;
+  border-color: #109D59;
   border-bottom-color: transparent;
 }
 .nav-tabs.nav-custom > li.dropdown .dropdown-menu {
     background-color: #dff0d8;
-    border-color: #d6e9c6;
+    border-color: #109D59;
 }
 .nav-tabs.nav-custom > li.dropdown .dropdown-menu > li > a {
     color: #3c763d;   
@@ -209,4 +209,8 @@
 #bus-line-info > li > a {
   padding: 0px;
   font-size: 20px;
+}
+
+.padding-tab {
+  padding: 15px 25px;
 }

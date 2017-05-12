@@ -66,3 +66,18 @@ $('.list-group').html("<%= j render 'list_bus_stop' %>");
 <% else %>
   defaultMap("home-map");
 <% end %>
+
+$('.marker-link').on('click', function () {
+  var marker = infowindow_markers[$(this).data('markerid')];
+  google.maps.event.trigger(marker, 'click');
+});
+
+<% if params[:bus_type].to_i.odd? %>
+  var html_text = '<a class="btn btn-primary select-route" data-remote="true"' +
+    'href="/home/show_bus_line/' + <%= @bus_line.id %> + '?bus_type=0">Luot Ve</a>'
+  $('#select-route').html(html_text)
+<% else %>
+  var html_text = '<a class="btn btn-primary select-route" data-remote="true"' +
+    'href="/home/show_bus_line/' + <%= @bus_line.id %> + '?bus_type=1">Luot Di</a>'
+  $('#select-route').html(html_text)
+<% end %>

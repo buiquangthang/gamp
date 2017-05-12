@@ -3,5 +3,8 @@
     <i class="fa fa-caret-left"></i>
   <% end %>
   <h3 class="bus-line-name"><%= @bus_line.name %></h3>
-  <a href="#" class="btn btn-primary select-route">Luot Di</a>
+  <div id="select-route" style="display: inline-block;">
+    <%= link_to "VV", show_bus_line_path(@bus_line, bus_type: 0), remote: true,
+      class: "btn btn-primary select-route" %>
+  </div>
 </div>
