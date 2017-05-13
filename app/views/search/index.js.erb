@@ -76,17 +76,4 @@
   defaultMap("home-map");
 <% end %>
 
-<% direction_string = "" %>
-<% @direction_result.each do |key, value| %>
-  <% direction_string = direction_string + 
-    "Di den tram #{value[:bus_station_start].code} tai dia chi #{value[:bus_station_start].address} " +
-    "luc #{value[:node_start].arrival_time}." +
-    "Bat xe buyt #{key.id} luot #{key.bus_type} di den tram " + 
-    "#{value[:bus_station_end].code} tai dia chi #{value[:bus_station_end].address} " +
-    "luc #{value[:node_end].arrival_time}. >>>>>>>>>>>>>>>>>>>>>>>> "
-  %>
-<% end %>
-
-$('#div-result-search').text("<%= direction_string %>")
-
 $('#list-group').html("<%= j render 'direction' %>");

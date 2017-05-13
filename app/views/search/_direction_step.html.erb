@@ -1,0 +1,80 @@
+<% keys = @direction_result.keys %>
+<% @direction_result.each_with_index do |(key, value), index| %>
+  <% if index == 0 %>
+    <div href="#" class="list-group-item">
+      <div class="row">
+        <div class="col-sm-2" style="margin-top: 10px;">
+          <img class="img-circle img-circle-custom" src="https://busmap.vn/assets/by_walk-0a0f1f51c26617cf6dd661d26186eb1f.png" alt="Download">
+        </div>
+        <div class="col-sm-10">
+            <div class="col-md-12">
+              <h4>Don tuyen <%= key.id %> luot <%= key.bus_type %></h4>
+            </div>
+            <div class="col-sm-12">
+              <p>Xuat phat tu: diem bat dau</p>
+              <p>Don tuyen <%= key.id %> luot <%= key.bus_type %> tai tram 
+                <%= value[:bus_station_start].address %> luc <%= value[:node_start].arrival_time %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <% key_previous = keys[index - 1] %>
+      <% value_previous = @direction_result[keys[index-1]] %>
+      <div href="#" class="list-group-item">
+        <div class="row">
+          <div class="col-sm-2" style="margin-top: 10px;">
+            <img class="img-circle img-circle-custom" src="https://busmap.vn/assets/by_walk-0a0f1f51c26617cf6dd661d26186eb1f.png" alt="Download">
+          </div>
+          <div class="col-sm-10">
+            <div class="col-md-12">
+              <h4>Chuyen tu tuyen <%= key_previous.id %> luot <%= key_previous.bus_type %>
+                sang tuyen <%= key.id %> luot <%= key.bus_type %>
+              </h4>
+            </div>
+            <div class="col-sm-12">
+              <p>Xuong xe tai tram: <%= value_previous[:bus_station_end].address %> luc <%= value_previous[:node_end].arrival_time %></p>
+              <p>Don tuyen <%= key.id %> luot <%= key.bus_type %> tai tram 
+                <%= value[:bus_station_start].address %> luc <%= value[:node_start].arrival_time %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <div href="#" class="list-group-item">
+      <div class="row">
+        <div class="col-sm-2" style="margin-top: 10px;">
+          <img class="img-circle img-circle-custom" src="https://busmap.vn/assets/by_bus-5b547884cc7c9d7a3b5624245e6d8fd5.png" alt="Download">
+        </div>
+        <div class="col-sm-10">
+            <div class="col-md-12">
+              <h4>Di tuyen <%= key.id %> luot <%= key.bus_type %></h4>
+            </div>
+            <div class="col-sm-12">
+              <p><%= value[:bus_station_start].address %> ->
+                <%= value[:bus_station_end].address %>
+            </div>
+          </div>
+      </div>
+    </div>
+    <% if index == @direction_result.size - 1 %>
+      <div href="#" class="list-group-item">
+        <div class="row">
+          <div class="col-sm-2" style="margin-top: 10px;">
+            <img class="img-circle img-circle-custom" src="https://busmap.vn/assets/by_walk-0a0f1f51c26617cf6dd661d26186eb1f.png" alt="Download">
+          </div>
+          <div class="col-sm-10">
+              <div class="col-md-12">
+                <h4>Di bo toi diem den</h4>
+              </div>
+              <div class="col-sm-12">
+                <p>Xuong xe tai tram: <%= value[:bus_station_end].address %> 
+                  luc <%= value[:node_end].arrival_time %>
+                </p>
+                <p>Di bo den: diem ket thuc</p>
+              </div>
+            </div>
+        </div>
+      </div>
+    <% end %>
+<% end %>

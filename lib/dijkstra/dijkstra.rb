@@ -50,7 +50,6 @@ class Dijkstra
   # shorter path).
   def relax(edge)
     return if @distance_to[edge.to] <= @distance_to[edge.from] + edge.weight
-
     @distance_to[edge.to] = @distance_to[edge.from] + edge.weight
     @path_to[edge.to] = edge.from
 

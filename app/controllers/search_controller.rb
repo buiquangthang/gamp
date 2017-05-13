@@ -5,11 +5,16 @@ class SearchController < ApplicationController
     # initial graph
     graph = Graph.new
     nodes = [0]
-    node_ids = TimeNode.pluck(:id)
-    node_ids.map {|id| graph.add_node(nodes[id] = Nod.new("#{id}"))}
+    node_ids = TimeNode.all
+    node_ids.map {|node| graph.add_node(nodes[node.id] = Nod.new("#{node.id}"))}
     links = Link.all
     links.each do |link|
-      graph.add_edge(nodes[link.origin], nodes[link.destination], link.cost)
+      if node_ids.find{|n| n.id == link.origin}.bus_route_id != 
+        node_ids.find{|n| n.id == link.destination}.bus_route_id
+        graph.add_edge(nodes[link.origin], nodes[link.destination], link.cost*2)
+      else
+        graph.add_edge(nodes[link.origin], nodes[link.destination], link.cost)
+      end
     end
 
     # get start point coordinate, end point coordinate and time start
@@ -24,14 +29,17 @@ class SearchController < ApplicationController
     nodes_start = []
     nodes_end = []
 
+    binding.pry
+    time_start_duration = (time_start.to_time + 60*30).strftime('%H:%M')
+    time_end_duaration = (time_start_duration.to_time + 180*60).strftime('%H:%M')
     # get node nearest time and bus_station
     start_bus_stations.each do |bus_station|
-      temps = TimeNode.where("CAST(arrival_time as time) between '07:00' and '12:00' AND bus_station_id = #{bus_station.id}").pluck(:id)
+      temps = TimeNode.where("CAST(arrival_time as time) between '#{time_start}' and '#{time_start_duration}' AND bus_station_id = #{bus_station.id}").pluck(:id)
       nodes_start = nodes_start + temps
     end
 
     end_bus_stations.each do |bus_station|
-      temps = TimeNode.where("CAST(arrival_time as time) between '07:00' and '12:00' AND bus_station_id = #{bus_station.id}").pluck(:id)
+      temps = TimeNode.where("CAST(arrival_time as time) between '#{time_start_duration}' and '#{time_end_duaration}' AND bus_station_id = #{bus_station.id}").pluck(:id)
       nodes_end = nodes_end + temps
     end
 
