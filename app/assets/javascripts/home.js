@@ -15,6 +15,32 @@ function initialise(){
   
   var map=new google.maps.Map(document.getElementById('home-map'), mapOptions);
   
+  menuContextMap(map);
+}
+
+$(document).ready(function(){
+  $('#search-bus-btn').on('click', function(){
+    var pathname = window.location.pathname;
+    console.log(pathname);
+    var startPoint = $('#start-point-txt').val();
+    var endPoint = $('#end-point-txt').val();
+    var startTime = $('#time').val();
+    var data = {start_point: startPoint, end_point: endPoint, start_time: startTime};
+    $.get(pathname + 'search/index', data, null, 'script');
+  });
+
+  var timepicker = new TimePicker('time', {
+    lang: 'en',
+    theme: 'dark'
+  });
+
+  timepicker.on('change', function(evt) {
+    var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+    evt.element.value = value;
+  });
+});
+
+function menuContextMap(map) {
   var directionsRendererOptions={};
   directionsRendererOptions.draggable=false;
   directionsRendererOptions.hideRouteList=true;
@@ -69,6 +95,7 @@ function initialise(){
         if(!originMarker.getMap()){
           originMarker.setMap(map);
         }
+        $('#mySidenav a[href="#search-bus"]').tab('show')
         $('#start-point-txt').val(originMarker.getPosition().lat() + ', ' + originMarker.getPosition().lng());
         break;
       case 'directions_destination_click':
@@ -123,16 +150,5 @@ function initialise(){
       //  display the 'Get directions' menu item if it is not visible and both directions origin and destination have been selected
       document.getElementById('getDirectionsItem').style.display='block';
     }
-  });
+  }); 
 }
-
-$(document).ready(function(){
-  $('#search-bus-btn').on('click', function(){
-    var pathname = window.location.pathname;
-    console.log(pathname);
-    var startPoint = $('#start-point-txt').val();
-    var endPoint = $('#end-point-txt').val();
-    var data = {start_point: startPoint, end_point: endPoint};
-    $.get(pathname + 'search/index', data, null, 'script');
-  });
-});

@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+  before_action :set_global_api
+
   def index
     # initial graph
     graph = Graph.new
@@ -10,9 +12,10 @@ class SearchController < ApplicationController
       graph.add_edge(nodes[link.origin], nodes[link.destination], link.cost)
     end
 
-    # get start poitn coordinate and end point coordinate
+    # get start point coordinate, end point coordinate and time start
     coor_start = params["start_point"].split(",").map {|f| f.to_f}
     coor_end = params["end_point"].split(",").map {|f| f.to_f}
+    time_start = params["start_time"]
 
     # find nearest bus stop inside radius
     start_bus_stations = BusStation.near(coor_start, 0.8, units: :km)
@@ -46,6 +49,7 @@ class SearchController < ApplicationController
       graph.add_edge nodes[node_id], node_end, 5.0
     end
 
+    # calculate shorted path
     nodes_result = []
     shortest_path = Dijkstra.new(graph, node_start).shortest_path_to(node_end)
     if shortest_path.class != String
@@ -56,12 +60,11 @@ class SearchController < ApplicationController
       p shortest_path
     end
 
-    #calculate result and response to user
+    # data drawing polyline from result node
     result_node_ids = nodes_result.map(&:to_i)
     result_nodes = TimeNode.where(id: result_node_ids).includes(:bus_route, :bus_station)
       .index_by(&:id).values_at(*result_node_ids)
 
-    binding.pry
     result_distance = []
     @bus_stations = []
 
@@ -72,6 +75,7 @@ class SearchController < ApplicationController
       @bus_stations.push result_nodes[i].bus_station
     end
 
+    # convert result nodes to direction
     @direction_result = {}
     temp_direction_result = {}
 
@@ -88,14 +92,39 @@ class SearchController < ApplicationController
     end
 
     @bus_stations.push result_nodes.last.bus_station
-    #show route
+
     @distances = result_distance
+    # drawing walking
+    first_station = result_nodes.first.bus_station
+    last_staion = result_nodes.last.bus_station
+      # direction
+    first_station_latlng = [first_station.latitude, first_station.longitude]
+    direction_to_first_station = @gmaps.directions(coor_start, first_station_latlng,
+      mode: 'walking', alternatives: true)
+    last_station_latlng = [last_staion.latitude, last_staion.longitude]
+    direction_to_last_station = @gmaps.directions(last_station_latlng, coor_end,
+      mode: 'walking', alternatives: true)
+    @routes = [direction_to_first_station]
+    @distances.each do |distance|
+      @routes.push distance.route
+    end
+    @routes.push direction_to_last_station
+
+    #show route
     @hash = Gmaps4rails.build_markers(@bus_stations) do |bus_station, marker|
       marker.lat bus_station.latitude
       marker.lng bus_station.longitude
       marker.infowindow bus_station.title
       marker.json({id: bus_station.id})
     end
+
+    start_point = {:lat => coor_start[0], :lng => coor_start[1],
+      :infowindow => "Start point", :id => "Start"}
+    end_point = {:lat => coor_end[0], :lng => coor_end[1],
+      :infowindow => "End point", :id => "End"}
+    @hash.unshift start_point
+    @hash.push end_point
+
     respond_to do |format|
       format.html { redirect_to root_path, notice: 'User was successfully created.'}
       format.js

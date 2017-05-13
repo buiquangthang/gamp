@@ -40,15 +40,26 @@
 
   var bounds = new google.maps.LatLngBounds();
 
-  <% @distances.each do |distance| %>
-    var jsonData = <%= raw distance.route.to_json %>
+  <% @routes.each_with_index do |route, index| %>
+    var jsonData = <%= raw route.to_json %>
     var path_encode = jsonData[0].overview_polyline.points;
     var path = google.maps.geometry.encoding.decodePath(path_encode);
     for (var i = 0; i < path.length; i++) {
         bounds.extend(path[i]);
     }
     
-    var polyline = new google.maps.Polyline({
+    <% if index == 0 || index == @routes.size - 1 %>
+      var polyline = new google.maps.Polyline({
+        path: path,
+        strokeColor: '#615656',
+        strokeOpacity: 0.8,
+        strokeWeight: 5,
+        fillColor: '#615656',
+        fillOpacity: 0.8,
+        map: map
+      });
+    <% else %>
+      var polyline = new google.maps.Polyline({
         path: path,
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,
@@ -56,7 +67,8 @@
         fillColor: '#FF0000',
         fillOpacity: 0.8,
         map: map
-    });
+      });
+    <% end %>
     polyline.setMap(map);
   <% end %>
   map.fitBounds(bounds);
@@ -76,3 +88,5 @@
 <% end %>
 
 $('#div-result-search').text("<%= direction_string %>")
+
+$('#list-group').html("<%= j render 'direction' %>");

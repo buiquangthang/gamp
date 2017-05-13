@@ -20,7 +20,8 @@ $('.list-group').html("<%= j render 'list_bus_stop' %>");
       var marker = new google.maps.Marker({
           position: myLatlng,
           map: map,
-          title: data.title
+          title: data.title,
+          icon: "https://thumb.ibb.co/dJ6yQk/busstop.png"
       });
       latlngbounds.extend(marker.position);
       (function (marker, data) {
@@ -33,6 +34,9 @@ $('.list-group').html("<%= j render 'list_bus_stop' %>");
   }
   map.setCenter(latlngbounds.getCenter());
   map.fitBounds(latlngbounds);
+
+  // Show select menu
+  menuContextMap(map);
   //***********ROUTING****************//
 
   //Intialize the Path Array
