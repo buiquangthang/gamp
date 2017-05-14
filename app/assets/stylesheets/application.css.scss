@@ -27,6 +27,10 @@
   padding-top: 10px;
 }
 
+.margin-button-login {
+  margin: 10px;
+}
+
 .table-editable {
   position: relative;
   
@@ -116,6 +120,7 @@
   top: 0px;
   left: 0px;
   margin-left: 400px;
+  margin-top: 50px;
 }
 
 .search-route {
@@ -221,4 +226,21 @@
 
 ._jw-tpk-container {
   font-size: 1.5rem;
+}
+
+.nav-user {
+  background-color: #34B67A;
+  color: white;
+  border: none;
+}
+
+.title-header {
+  font-size: 25px;
+  
+  a {
+    color: white
+  }
+  a:hover {
+    text-decoration: none;
+  }
 }

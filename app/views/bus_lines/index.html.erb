@@ -25,8 +25,8 @@
     <tbody>
       <%= content_tag_for(:tr, @bus_lines) do |bus_line| %>
             <td><%= bus_line.name %></td>
-            <td><%= bus_line.operating_from %></td>
-            <td><%= bus_line.operating_to %></td>
+            <td><%= bus_line.operating_from.strftime("%H:%M") %></td>
+            <td><%= bus_line.operating_to.strftime("%H:%M") %></td>
             <td><%= bus_line.in_charge_unit %></td>
             <td><%= bus_line.ticket_fee %></td>
             <td><%= bus_line.description %></td>
