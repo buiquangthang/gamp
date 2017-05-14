@@ -19,7 +19,7 @@
       <div class="search-route" id="header">
         <input type="text" class="form-control">
       </div>
-      <div class="list-group">
+      <div class="list-group" id="bus-route-infomation">
         <% @bus_lines.each do |line| %>
           <%= link_to show_bus_line_path(line),
             remote: true, class: "list-group-item" do %>

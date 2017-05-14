@@ -1,5 +1,5 @@
 $('#header').html("<%= j render 'bus_line_header' %>");
-$('.list-group').html("<%= j render 'list_bus_stop' %>");
+$('#bus-route-infomation').html("<%= j render 'list_bus_stop' %>");
 
 <% if @hash.any? %>
   var infowindow_markers = {};

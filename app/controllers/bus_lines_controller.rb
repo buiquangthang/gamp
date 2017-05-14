@@ -10,6 +10,16 @@ class BusLinesController < ApplicationController
   # GET /bus_lines/1
   # GET /bus_lines/1.json
   def show
+    @bus_route_di = @bus_line.bus_routes.di.first
+    @bus_route_ve = @bus_line.bus_routes.ve.first
+    @bus_stations = BusStation.of_ids(@bus_route_di.list_bus_stations) + 
+      BusStation.of_ids(@bus_route_ve.list_bus_stations)
+    @distances = @bus_route_di.distances + @bus_route_ve.distances
+    @hash = Gmaps4rails.build_markers(@bus_stations) do |bus_station, marker|
+      marker.lat bus_station.latitude
+      marker.lng bus_station.longitude
+      marker.infowindow bus_station.title
+    end
   end
 
   # GET /bus_lines/new

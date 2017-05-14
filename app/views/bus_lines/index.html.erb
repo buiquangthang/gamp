@@ -3,37 +3,48 @@
     <span class="glyphicon glyphicon-plus"></span>
     New Bus line
   <% end %>
-  <h1>Listing bus_lines</h1>
+  <h1>Danh Sach cac tuyen xe buyt</h1>
 </div>
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-            <th>Name</th>
-            <th>Operating from</th>
-            <th>Operating to</th>
-            <th>In charge unit</th>
-            <th>Ticket fee</th>
-            <th>Description</th>
-            <th></th>
-        <th></th>
+        <th>Name</th>
+        <th>Operating from</th>
+        <th>Operating to</th>
+        <th>In charge unit</th>
+        <th>Ticket fee</th>
+        <th>Description</th>
         <th></th>
       </tr>
     </thead>
 
     <tbody>
       <%= content_tag_for(:tr, @bus_lines) do |bus_line| %>
-            <td><%= bus_line.name %></td>
-            <td><%= bus_line.operating_from.strftime("%H:%M") %></td>
-            <td><%= bus_line.operating_to.strftime("%H:%M") %></td>
-            <td><%= bus_line.in_charge_unit %></td>
-            <td><%= bus_line.ticket_fee %></td>
-            <td><%= bus_line.description %></td>
-            <td><%= link_to 'Show', bus_line %></td>
-        <td><%= link_to 'Edit', edit_bus_line_path(bus_line) %></td>
-        <td><%= link_to 'Destroy', bus_line, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= bus_line.name %></td>
+        <td><%= bus_line.operating_from.strftime("%H:%M") %></td>
+        <td><%= bus_line.operating_to.strftime("%H:%M") %></td>
+        <td><%= bus_line.in_charge_unit %></td>
+        <td><%= bus_line.ticket_fee %></td>
+        <td><%= bus_line.description %></td>
+        <td>
+          <%= link_to bus_line, class: "btn btn-default" do %>
+            <i class="fa fa-eye"></i> Show
+          <% end %>
+          <%= link_to edit_bus_line_path(bus_line), class: "btn btn-success" do %>
+            <i class="fa fa-pencil-square"></i> Edit
+          <% end %>
+          <%= link_to bus_line, method: :delete, class: "btn btn-warning",
+            data: { confirm: 'Are you sure?' } do %>
+            <i class="fa fa-trash"></i> Delete
+          <% end %>
+        </td>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<div style='width: 800px;'>
+  <div id="map" style='width: 1200px; height: 600px;'></div>
 </div>
