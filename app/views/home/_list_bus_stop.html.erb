@@ -2,13 +2,13 @@
   <li class="active">
     <a data-toggle="tab" href="#list-bus-station-tab">
       <i class="fa fa-bus" aria-hidden="true"></i>
-      Tram cho
+      <%= t "bus_stop" %>
     </a>
   </li>
   <li>
     <a data-toggle="tab" href="#bus-line-info-tab">
       <i class="fa fa-info-circle"></i>
-      Thong tin  
+      <%= t "information_bus_route" %> 
     </a>
   </li>
 </ul>
@@ -24,22 +24,22 @@
   <div id="bus-line-info-tab" class="tab-pane fade">
     <div class="clear-fix padding-tab">
       <span>
-        <b>Ten tuyen: </b>
+        <b><%= t "route_name" %>: </b>
         <%= @bus_line.name %>
       </span>
       <br>
       <span>
-        <b>Lo trinh: </b>
+        <b><%= t "bus_route" %>: </b>
         <%= @bus_line.description %>
       </span>
       <br>
       <span>
-        <b>Thoi gian hoat dong: </b>
+        <b><%= t "time_activity" %>: </b>
         <%= @bus_line.operating_from %>
       </span>
       <br>
       <span>
-        <b>Gia ve: </b>
+        <b><%= t "ticket_fee" %>: </b>
         <%= @bus_line.ticket_fee %>
       </span>
     </div>

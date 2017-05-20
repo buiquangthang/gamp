@@ -1,21 +1,21 @@
 <div class="page-header">
   <%= link_to new_bus_line_path, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    New Bus line
+    <%= t "new_bus_line" %>
   <% end %>
-  <h1>Danh Sach cac tuyen xe buyt</h1>
+  <h1><%= t "list_bus_line" %></h1>
 </div>
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Operating from</th>
-        <th>Operating to</th>
-        <th>In charge unit</th>
-        <th>Ticket fee</th>
-        <th>Description</th>
+        <th><%= t "route_name" %></th>
+        <th><%= t "time_start_activity" %></th>
+        <th><%= t "time_end_activity" %></th>
+        <th><%= t "in_charge_unit" %></th>
+        <th><%= t "ticket_fee" %></th>
+        <th><%= t "description" %></th>
         <th></th>
       </tr>
     </thead>
@@ -45,6 +45,3 @@
   </table>
 </div>
 
-<div style='width: 800px;'>
-  <div id="map" style='width: 1200px; height: 600px;'></div>
-</div>

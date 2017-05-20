@@ -9,9 +9,9 @@
       <div class="text-center title-header">
         <%= link_to root_path do %>
           <img src="http://startupfair.vn/images/Logo_Danang.PNG" alt="logo" style="width: 4%">
-          <b>He thong chi duong xe buyt tai thanh pho Da Nang</b>
+          <b><%= t "title" %></b>
         <% end %>
-        <%= link_to "Dang nhap", new_user_session_path,
+        <%= link_to t("login"), new_user_session_path,
           class: "btn btn-primary pull-right margin-button-login"%>
       </div>
     </div>

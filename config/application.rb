@@ -16,5 +16,6 @@ module Gmap
     config.autoload_paths += %W(#{config.root}/lib/dijkstra)
     config.autoload_paths += Dir["#{config.root}/lib/dijkstra/**/"]
     config.watchable_dirs['lib'] = [:rb]
+    config.i18n.default_locale = :vi
   end
 end
