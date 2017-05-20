@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   post "bus_routes/:id/update_bus_stations", to: "bus_routes#update_bus_stations", as: "update_bus_stations"
   post "bus_routes/:bus_route_id/timetables/update_nodes",
     to: "timetables#update_nodes", as: "update_nodes"
+  post "bus_routes/:bus_route_id/timetables/delete_list_node",
+    to: "timetables#delete_list_node", as: "delete_list_node"
   get "bus_routes/:id/search_bus_stop", to: "bus_routes#search_bus_stop", as: "search_bus_stations"
 
   get "home/show_bus_line/:bus_line_id", to: "home#show_bus_line", as: "show_bus_line"

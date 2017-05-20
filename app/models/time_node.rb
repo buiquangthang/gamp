@@ -1,6 +1,7 @@
 class TimeNode < ApplicationRecord
   after_create :update_links_after_create
   after_update :update_links_after_update
+  after_destroy :destroy_links
 
   belongs_to :bus_route
   belongs_to :bus_station
@@ -45,5 +46,8 @@ class TimeNode < ApplicationRecord
         Link.where(origin: id).update_all(origin: node.id, destination: id)
       end
     end
+  end
+
+  def destroy_links
   end
 end

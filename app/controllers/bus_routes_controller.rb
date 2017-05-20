@@ -14,7 +14,9 @@ class BusRoutesController < ApplicationController
   end
 
   def show
+    @bus_line = @bus_route.bus_line
     @bus_stations = BusStation.of_ids(@bus_route.list_bus_stations)
+      .index_by(&:id).values_at(*@bus_route.list_bus_stations)
     @another_bus_stations = BusStation.not_in_routes(@bus_route.list_bus_stations)
     @distances = @bus_route.distances
     @hash = Gmaps4rails.build_markers(@bus_stations) do |bus_station, marker|

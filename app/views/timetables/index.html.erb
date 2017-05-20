@@ -1,11 +1,19 @@
 <div class="page-header">
-  <a class="btn btn-success" href="#" data-toggle="modal" data-target="#myModal">Add Time Table</a>
-  <h1>Timetables#index</h1>
+  <a class="btn btn-success" href="#" id="add-bus-time"><%= t "add_time_table" %></a>
+  <a class="btn btn-danger" href="#" id="delete-bus-time"><%= t "delete_time_table" %></a>
+  <h1>
+    <%= t "bus_time" %> <%= @bus_route.bus_line.name %>
+    <% if @bus_route.di? %>
+      (Lượt đi)
+    <% else %>
+      (Lượt về)
+    <% end %>
+  </h1>
 </div>
 <%= render "add_timetable_modal" %>
 
 <div id="table" class="table-editable">
-  <span class="table-add glyphicon glyphicon-plus"></span>
+  <!-- <span class="table-add glyphicon glyphicon-plus"></span> -->
   <table class="table" id="time-tables">
   <% @bus_route.list_bus_stations.each_with_index do |i, index| %>
     <% bus_station = @bus_stations.find{|bus_station| bus_station.id == i} %>
@@ -16,7 +24,11 @@
       <% if @matrix_node[index].present?%>
         <% @matrix_node[index].length.times do |j| %>
           <% node = @matrix_node[index][j] %>
-          <td class="node-timetable">
+          <% if index == 0 %>
+            <td class="node-timetable list-time-node-id" data-id="<%= node.list_time_node_id%>">
+          <% else %>
+            <td class="node-timetable">
+          <% end %>
             <% if node.arrival_time %>
               <p contenteditable="true" class="current-time"><%= node.arrival_time.strftime("%H:%M") %></p>
               <input type="hidden" value="<%= node.arrival_time.strftime("%H:%M") %>" class="time-arrival">
@@ -33,8 +45,12 @@
   </table>
 </div>
 
-<button id="create-btn" class="btn btn-primary" disabled="disabled">Create New Data</button>
-<button id="save-btn" class="btn btn-success">Save Data</button>
+<button id="create-btn" class="btn btn-primary" disabled="disabled">
+  <%= t "create_time_table" %>
+</button>
+<button id="save-btn" class="btn btn-success">
+  <%= t "save_time_table" %>
+</button>
 <p id="export"></p>
 
 <script>
@@ -57,7 +73,28 @@
     $.post("timetables/update_nodes", {list_nodes: nodeChangeHash}, function(data) {
       window.location.reload();
     });
-  })
+  });
+
+  $('#delete-bus-time').on('click', function(){
+    var arrayId = [];
+    $(".list-time-id:checkbox:checked").each(function(){
+      arrayId.push($(this).val());
+    });
+    $.post("timetables/delete_list_node", {list_node_id: arrayId}, function(data) {
+      window.location.reload();
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function(){
+    var rowStr = "<tr><td></td>"
+    $(".list-time-node-id").each(function(){
+      rowStr += '<td><input type="checkbox" class="list-time-id" value="' +  $(this).data("id") + '">';
+    });
+    rowStr += "</tr>";
+    $('#table tbody').prepend(rowStr);
+  });  
 </script>
 
 <script>
@@ -66,7 +103,7 @@ $(document).ready(function(){
   var $BTN = $('#create-btn');
   var $EXPORT = $('#export');
 
-  $('.table-add').click(function () {
+  $('#add-bus-time').click(function () {
     $('#time-tables tr').each(function(){
        $(this).append('<td contenteditable="true">12:00</td>');       
     })

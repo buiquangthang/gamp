@@ -39,6 +39,11 @@ class TimetablesController < ApplicationController
     end
   end
 
+  def delete_list_node
+    ListTimeNode.of_ids(params["list_node_id"].map(&:to_i)).destroy_all
+    binding.pry
+  end
+
   def update_nodes
     list_nodes = params[:list_nodes].to_unsafe_hash if params[:list_nodes]
     return unless list_nodes
