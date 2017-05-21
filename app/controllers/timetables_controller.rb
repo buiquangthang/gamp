@@ -41,7 +41,6 @@ class TimetablesController < ApplicationController
 
   def delete_list_node
     ListTimeNode.of_ids(params["list_node_id"].map(&:to_i)).destroy_all
-    binding.pry
   end
 
   def update_nodes
@@ -49,7 +48,11 @@ class TimetablesController < ApplicationController
     return unless list_nodes
     list_nodes.each do |key, value|
       node = TimeNode.find_by id: key
-      node.update arrival_time: value
+      if value.empty?
+        node.update arrival_time: "00:00"
+      else
+        node.update arrival_time: value
+      end
     end
   end
 

@@ -19,10 +19,10 @@
         <dd><%= @bus_line.name %></dd>
 
         <dt><%= t "time_start_activity" %>:</dt>
-        <dd><%= @bus_line.operating_from %></dd>
+        <dd><%= @bus_line.operating_from.strftime("%H:%M") %></dd>
 
         <dt><%=  t "time_end_activity" %>:</dt>
-        <dd><%= @bus_line.operating_to %></dd>
+        <dd><%= @bus_line.operating_to.strftime("%H:%M") %></dd>
 
         <dt><%= t "in_charge_unit" %>:</dt>
         <dd><%= @bus_line.in_charge_unit %></dd>

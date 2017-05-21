@@ -41,13 +41,21 @@ class TimeNode < ApplicationRecord
     nodes.each do |node|
       next if node.id == id || node.bus_route_id == bus_route_id
       if node.arrival_time > arrival_time
-        Link.where(destination: id).update_all(origin: id, destination: node.id)
+        Link.where(destination: id).each do |link|
+          link.update origin: id, destination: node.id, cost: node.arrival_time - arrival_time
+        end
       else
-        Link.where(origin: id).update_all(origin: node.id, destination: id)
+        Link.where(origin: id).each do |link|
+          link.update origin: node.id, destination: id, cost: arrival_time - node.arrival_time
+        end
       end
     end
   end
 
   def destroy_links
+    destination_links = Link.where(destination: id)
+    origin_links = Link.where(origin: id)
+    destination_links.delete_all
+    origin_links.delete_all
   end
 end

@@ -1,4 +1,4 @@
-<% if @hash.any? %>
+<% if @hash && @hash.any? %>
   var infowindow_markers = {};
   var markers = <%= raw @hash.to_json %>
   var mapOptions = {
@@ -14,11 +14,21 @@
       var data = markers[i]
       var myLatlng = new google.maps.LatLng(data.lat, data.lng);
       lat_lng.push(myLatlng);
-      var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map,
-          title: data.title
-      });
+      if (i==0 || i == markers.length -1){
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: data.title
+        });
+      } else {
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: data.title,
+            icon: "https://thumb.ibb.co/dJ6yQk/busstop.png"
+        });
+      }
+
       latlngbounds.extend(marker.position);
       (function (marker, data) {
           google.maps.event.addListener(marker, "click", function (e) {

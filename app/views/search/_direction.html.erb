@@ -13,9 +13,18 @@
   </li>
 </ul>
 
+
 <div class="tab-content">
   <div id="direction-detail" class="tab-pane fade in active">
-    <%= render 'direction_step' %>
+    <% if @shortest_path.present? %>
+      <div href="#" class="list-group-item">
+        <div class="row">
+          <h3>Xin lỗi, hệ thống không tìm thấy đường đi phù hợp với yêu cầu</h3>
+        </div>
+      </div>        
+    <% else %>
+      <%= render 'direction_step' %>
+    <% end %>
   </div>
   <div id="bus-station-over" class="tab-pane fade">
     <p>llll</p>

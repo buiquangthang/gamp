@@ -47,10 +47,15 @@
             <dd><%= @bus_line.ticket_fee %></dd>
 
             <dt><%= t "start_bus_station" %>:</dt>
+            <% if @bus_station.present? %>
             <dd><%= @bus_stations.first.address %></dd>
+            <% end %>
+
 
             <dt><%= t "end_bus_station" %>:</dt>
+            <% if @bus_station.present? %>
             <dd><%= @bus_stations.last.address %></dd>
+            <% end %>
           </dl>    
         </div>
       </div>
@@ -145,7 +150,8 @@ $(document).ready(function(){
           var marker = new google.maps.Marker({
               position: myLatlng,
               map: map,
-              title: data.title
+              title: data.title,
+              icon: "https://thumb.ibb.co/dJ6yQk/busstop.png"
           });
           latlngbounds.extend(marker.position);
           (function (marker, data) {

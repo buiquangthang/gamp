@@ -17,7 +17,7 @@
   <table class="table" id="time-tables">
   <% @bus_route.list_bus_stations.each_with_index do |i, index| %>
     <% bus_station = @bus_stations.find{|bus_station| bus_station.id == i} %>
-    <tr>
+    <tr class="time-node">
       <td class="bus-stop">
         <strong><%= bus_station.code %></strong>
       </td>
@@ -57,7 +57,7 @@
   $('#save-btn').on('click', function(){
     var nodeChangeHash = {};
     var nodeNewHash = [];
-    $("table#time-tables tr").each(function(){ 
+    $("table#time-tables tr.time-node").each(function(){ 
         var tableData = $(this).find('td.node-timetable');
         var header = $(this).find('.bus-stop');
         tableData.each(function(){
@@ -104,7 +104,7 @@ $(document).ready(function(){
   var $EXPORT = $('#export');
 
   $('#add-bus-time').click(function () {
-    $('#time-tables tr').each(function(){
+    $('#time-tables tr.time-node').each(function(){
        $(this).append('<td contenteditable="true">12:00</td>');       
     })
     $('#save-btn').prop('disabled', true);
@@ -142,7 +142,7 @@ $(document).ready(function(){
     });
     
     var myTableArray = [];
-    $("table#time-tables tr").each(function() { 
+    $("table#time-tables tr.time-node").each(function() { 
         var arrayOfThisRow = [];
         var tableData = $(this).find('td');
         if (tableData.length > 0) {

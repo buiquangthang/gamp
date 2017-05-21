@@ -101,4 +101,9 @@ jQuery(function() {
     scrollCollapse: true,
     paging: false
   });
+
+  $('#table-all-bus-station').dataTable({
+    sPaginationType: "full_numbers",
+    bJQueryUI: true
+  });
 });

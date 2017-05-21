@@ -24,7 +24,7 @@
           <%= link_to show_bus_line_path(line),
             remote: true, class: "list-group-item" do %>
             <h4 class="list-group-item-heading"><%= line.name %></h4>
-            <p class="list-group-item-text">...</p>
+            <h4 class="list-group-item-text"><%= line.description %></h4>
           <% end %>
         <% end %>
       </div>

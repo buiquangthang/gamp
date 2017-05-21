@@ -17,7 +17,7 @@
   <div id="list-bus-station-tab" class="tab-pane fade in active">
     <% @bus_stations.each do |bus_station| %>
       <a href="#" class="list-group-item marker-link" data-markerid="<%= bus_station.id %>">
-        <%= bus_station.name %>
+        <h4><%= bus_station.address %></h4>
       </a>
     <% end %>
   </div>

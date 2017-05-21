@@ -1,19 +1,19 @@
 <div class="page-header">
   <%= link_to new_bus_station_path, class: 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    New BusStation
+    Thêm mới trạm dừng
   <% end %>
-  <h1>Listing bus_stations</h1>
-  <h2>Import Busstops</h2>
+  <h1>Danh sách các trạm dừng</h1>
+  <h2>Nhập trạm dừng</h2>
 
   <%= form_tag import_bus_stations_path, multipart: true do %>
     <%= file_field_tag :file %>
-    <%= submit_tag "Import" %>
+    <%= submit_tag "Nhập" %>
   <% end %>
 </div>
 
 <div class="table-responsive">
-  <table class="table table-striped table-bordered table-hover">
+  <table class="table table-striped table-bordered table-hover" id="table-all-bus-station">
     <thead>
       <tr>
             <th>#</th>

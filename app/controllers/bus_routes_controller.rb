@@ -22,7 +22,7 @@ class BusRoutesController < ApplicationController
     @hash = Gmaps4rails.build_markers(@bus_stations) do |bus_station, marker|
       marker.lat bus_station.latitude
       marker.lng bus_station.longitude
-      marker.infowindow bus_station.title
+      marker.infowindow bus_station.address
     end
   end
 
@@ -136,7 +136,8 @@ class BusRoutesController < ApplicationController
           origin_links = Link.where(origin: node.id)
           destination_links.each do |des|
             origin_links.each do |ori|
-              Link.create origin: des.origin, destination: ori.destination
+              Link.create origin: des.origin, destination: ori.destination, 
+                cost: des.cost + ori.cost
             end
           end
           destination_links.delete_all

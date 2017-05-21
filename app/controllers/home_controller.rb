@@ -17,7 +17,7 @@ class HomeController < ApplicationController
     @hash = Gmaps4rails.build_markers(@bus_stations) do |bus_station, marker|
       marker.lat bus_station.latitude
       marker.lng bus_station.longitude
-      marker.infowindow bus_station.title
+      marker.infowindow bus_station.address
       marker.json({id: bus_station.id})
     end
     respond_to do |format|
