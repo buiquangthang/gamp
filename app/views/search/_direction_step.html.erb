@@ -33,7 +33,7 @@
               </h4>
             </div>
             <div class="col-sm-12">
-              <p>Xuong xe tai tram: <%= value_previous[:bus_station_end].address %> luc <%= value_previous[:node_end].arrival_time %></p>
+              <p>Xuong xe tai tram: <%= value_previous[:bus_station_end].address %> luc <%= value_previous[:node_end].arrival_time.strftime("%H:%M") %></p>
               <p>Đón <%= key.bus_line.name %> lượt <%= key.bus_type %> tai tram 
                 <%= value[:bus_station_start].address %> lúc <%= value[:node_start].arrival_time.strftime("%H:%M") %>
             </div>
