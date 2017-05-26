@@ -19,8 +19,8 @@ production:
   encoding: utf8
   database: gmap_production
   pool: 15
-  username: localhost
-  password:
+  username: postgres
+  password: postgres
 
 cucumber:
   <<: *TEST

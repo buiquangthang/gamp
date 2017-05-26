@@ -15,6 +15,7 @@ module Gmap
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/lib/dijkstra)
     config.autoload_paths += Dir["#{config.root}/lib/dijkstra/**/"]
+    config.eager_load_paths += %W( #{config.root}/lib/dijkstra/**/)
     config.watchable_dirs['lib'] = [:rb]
     config.i18n.default_locale = :vi
   end
