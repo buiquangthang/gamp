@@ -14,7 +14,6 @@ function initialise(){
   mapOptions.mapTypeId=google.maps.MapTypeId.ROADMAP;
   
   var map=new google.maps.Map(document.getElementById('home-map'), mapOptions);
-  
   menuContextMap(map);
 }
 
@@ -22,8 +21,8 @@ $(document).ready(function(){
   $('#search-bus-btn').on('click', function(){
     var pathname = window.location.pathname;
     console.log(pathname);
-    var startPoint = $('#start-point-txt').val();
-    var endPoint = $('#end-point-txt').val();
+    var startPoint = $('#start-point-txt-hidden').val();
+    var endPoint = $('#end-point-txt-hidden').val();
     var startTime = $('#time').val();
     var data = {start_point: startPoint, end_point: endPoint, start_time: startTime};
     $.get(pathname + 'search/index', data, null, 'script');
@@ -85,8 +84,10 @@ function menuContextMap(map) {
         if(!originMarker.getMap()){
           originMarker.setMap(map);
         }
-        $('#mySidenav a[href="#search-bus"]').tab('show')
+        $('#mySidenav a[href="#search-bus"]').tab('show');
         $('#start-point-txt').val(originMarker.getPosition().lat() + ', ' + originMarker.getPosition().lng());
+        $('#start-point-txt-hidden').val(originMarker.getPosition().lat() + ', ' + originMarker.getPosition().lng());
+        geocodeLatLng('#start-point-txt');
         break;
       case 'directions_destination_click':
         destinationMarker.setPosition(latLng);
@@ -94,6 +95,8 @@ function menuContextMap(map) {
           destinationMarker.setMap(map);
         }
         $('#end-point-txt').val(destinationMarker.getPosition().lat() + ', ' + destinationMarker.getPosition().lng());
+        $('#end-point-txt-hidden').val(destinationMarker.getPosition().lat() + ', ' + destinationMarker.getPosition().lng());
+        geocodeLatLng('#end-point-txt');
         break;
       case 'clear_directions_click':
         directionsRenderer.setMap(null);
@@ -141,4 +144,22 @@ function menuContextMap(map) {
       document.getElementById('getDirectionsItem').style.display='block';
     }
   }); 
+}
+
+function geocodeLatLng(object) {
+  var geocoder = new google.maps.Geocoder;
+  var input = $(object).val();
+  var latlngStr = input.split(',', 2);
+  var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+  geocoder.geocode({'location': latlng}, function(results, status) {
+    if (status === 'OK') {
+      if (results[1]) {
+        $(object).val(results[1].formatted_address);
+      } else {
+        window.alert('No results found');
+      }
+    } else {
+      window.alert('Geocoder failed due to: ' + status);
+    }
+  });
 }

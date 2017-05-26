@@ -18,8 +18,8 @@ production:
   adapter: postgresql
   encoding: utf8
   database: gmap_production
-  pool: 5
-  username: 
+  pool: 15
+  username: localhost
   password:
 
 cucumber:

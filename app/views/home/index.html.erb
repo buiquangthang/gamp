@@ -32,7 +32,9 @@
     <div id="search-bus" class="tab-pane fade">
       <div class="search-route">
         <input type="text" class="form-control" bus_stationholder="Start" id="start-point-txt">
+        <input type="hidden" id="start-point-txt-hidden">
         <input type="text" class="form-control" bus_stationholder="Finish" style="margin-top: 10px" id="end-point-txt">
+        <input type="hidden" id="end-point-txt-hidden">
         <div class="clear-fix">
           <input type="text" id="time" placeholder="Time" class="form-control" style="display: inline-block; width: 50%; margin-top: 10px">
           <a href="#" class="btn btn-success select-route" id="search-bus-btn" style="display: inline-block; margin-top: 10px">Search</a>
@@ -57,4 +59,24 @@
     var value = (evt.hour || '00') + ':' + (evt.minute || '00');
     evt.element.value = value;
   });
+</script>
+
+<script>
+  function init() {
+    var inputStartPoint = document.getElementById('start-point-txt');
+    var autocompleteStartPoint = new google.maps.places.Autocomplete(inputStartPoint);
+    var inputEndPoint = document.getElementById('end-point-txt');
+    var autocompleteEndPoint = new google.maps.places.Autocomplete(inputEndPoint);
+
+    autocompleteEndPoint.addListener('place_changed', function() {
+      var place = autocompleteEndPoint.getPlace().geometry.location;
+      $('#end-point-txt-hidden').val(place.lat() + ',' + place.lng());
+    });
+
+    autocompleteStartPoint.addListener('place_changed', function() {
+      var place = autocompleteStartPoint.getPlace().geometry.location;
+      $('#start-point-txt-hidden').val(place.lat() + ',' + place.lng());
+    });
+  }
+  google.maps.event.addDomListener(window, 'load', init);
 </script>

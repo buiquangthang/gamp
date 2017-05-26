@@ -15,7 +15,16 @@
         <li><%= link_to t("bus_stop"), bus_stations_path %></li>
       </ul>
       <div class="pull-right margin-button-login">
-        <%= link_to "Log out", destroy_user_session_path, class: "btn btn-default"%>
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            Account
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+            <li><%= link_to "Log out", destroy_user_session_path %></li>
+          </ul>
+        </div>
       </li>
     </div>
   </div>

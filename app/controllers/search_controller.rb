@@ -31,7 +31,6 @@ class SearchController < ApplicationController
     nodes_start = []
     nodes_end = []
 
-    binding.pry
     time_start_duration = (time_start.to_time + 60*30).strftime('%H:%M')
     time_end_duaration = (time_start_duration.to_time + 180*60).strftime('%H:%M')
     # get node nearest time and bus_station
