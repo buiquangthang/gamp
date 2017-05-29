@@ -7,7 +7,7 @@ namespace :db do
 
     bus_routes.each do |bus_route|
       t = Time.zone.parse("2000-01-01 07:00").utc
-      10.times do |n|
+      15.times do |n|
         puts n
         puts t
         t_temp = t
@@ -26,7 +26,7 @@ namespace :db do
           destination_node = TimeNode.find_by id: node_ids[i+1]
           Link.create origin: node_ids[i], destination: node_ids[i+1], cost: destination_node.arrival_time - origin_node.arrival_time
         end
-        t = t + 30*60
+        t = t + 20*60
       end
     end
   end

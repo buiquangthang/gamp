@@ -26,6 +26,7 @@ $(document).ready(function(){
     });
     var data_id = $('#bus-route-id').data("id");
     var path = "/bus_routes/" + data_id + "/destroy_bus_stations";
+    $('#loader').css("display", "block");
     $.post(path, {list_bus_stations: bus_stations}, function(data) {
       window.location.reload();
     });
@@ -39,6 +40,7 @@ $(document).ready(function(){
     });
     var data_id = $('#bus-route-id').data("id");
     var path = "/bus_routes/" + data_id + "/add_bus_stations";
+    $('#loader').css("display", "block");
     $.post(path, {list_bus_stations: bus_stations}, function(data) {
       window.location.reload();
     });    
@@ -53,6 +55,7 @@ $(document).ready(function(){
 
     var data_id = $('#bus-route-id').data("id");
     var path = "/bus_routes/" + data_id + "/update_bus_stations";
+    $('#loader').css("display", "block");
     $.post(path, {list_bus_stations: bus_stations}, function(data) {
       window.location.reload();
     });

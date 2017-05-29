@@ -1,4 +1,5 @@
 class BusLinesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_bus_line, only: [:show, :edit, :update, :destroy]
 
   # GET /bus_lines

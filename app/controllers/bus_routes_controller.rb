@@ -1,6 +1,7 @@
 require 'google_maps_service'
 
 class BusRoutesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_bus_route, except: :index
   before_action :list_bus_stations, only: [:add_bus_stations, :destroy_bus_stations]
   before_action :set_global_api

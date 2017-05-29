@@ -1,4 +1,5 @@
 class TimetablesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_bus_route
 
   def index
