@@ -63,10 +63,10 @@
             <tr>
               <td><%= t "come" %></td>
               <td align="center">
-                <%= link_to "Chinh sua lo trinh", @bus_route_ve,
+                <%= link_to t("edit_bus_route"), @bus_route_ve,
                   class: "btn btn-primary" %>
               </td>
-              <td align="center"><%= link_to "Chinh sua lich trinh",
+              <td align="center"><%= link_to t("edit_bus_time"),
                 bus_route_timetables_path(@bus_route_ve), class: "btn btn-success" %>
               </td>
             </tr>

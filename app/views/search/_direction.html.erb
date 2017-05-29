@@ -27,7 +27,13 @@
     </div>
   </div>
   <div id="bus-station-over" class="tab-pane fade">
-    <p>llll</p>
+    <% if @bus_stations %>
+      <% @bus_stations.each do |bus_station| %>
+        <a href="#" class="list-group-item marker-link" data-markerid="<%= bus_station.id %>">
+          <h4><%= bus_station.address %></h4>
+        </a>
+      <% end %>
+    <% end %>
   </div>
 </div>
 
